@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lockstep — Peterborough's Local Rewards</title>
+
+<!-- ================= FONTS ================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<!-- ================= STYLESHEET (separate file) ================= -->
+<link rel="stylesheet" href="lock.css">
+</head>
+<body>
+
+<!-- =========================================================
+     SECTION 1: NAVIGATION BAR
+     ========================================================= -->
+<nav class="nav">
+  <div class="wrap">
+    <div class="logo">
+      <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+        <rect x="4" y="6" width="22" height="18" rx="2" fill="#0f3b36"/>
+        <rect x="9" y="2" width="3" height="26" fill="#c1442a"/>
+        <rect x="18" y="2" width="3" height="26" fill="#c1442a"/>
+        <rect x="7" y="14" width="16" height="7" rx="1" fill="#e4a527"/>
+      </svg>
+      Lockstep
+    </div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#businesses">Local businesses</a>
+      <a href="#tiers">Rewards tiers</a>
+      <a href="#owners">For business owners</a>
+    </div>
+    <a class="nav-cta" href="#get-app">Get the app</a>
+  </div>
+</nav>
+
+
+<!-- =========================================================
+     SECTION 2: HERO
+     Left: headline + CTAs + stats. Right: animated lift-lock SVG.
+     (Animation logic lives in script.js, not inline here.)
+     ========================================================= -->
+<section class="hero">
+  <div class="wrap">
+
+    <!-- 2a. Hero copy -->
+    <div>
+      <div class="eyebrow">Made in Peterborough, Ontario</div>
+      <h1>Every coffee, pint, and haircut <em>lifts</em> this city a little higher.</h1>
+      <p class="lead">Lockstep is the one rewards card for every independent shop, café, and studio downtown. Tap in, collect points, and watch your loyalty rise — literally — with every local business you support.</p>
+      <div class="btn-row">
+        <a href="#get-app" class="btn btn-primary">Get the app — it's free</a>
+        <a href="#owners" class="btn btn-ghost">I run a business</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>110+</b><span>local businesses onboard</span></div>
+        <div><b>$0</b><span>cost to shop and earn</span></div>
+        <div><b>1</b><span>card for the whole city</span></div>
+      </div>
+    </div>
+
+    <!-- 2b. Animated lift-lock SVG card -->
+    <div class="lock-stage">
+      <div class="lock-caption">
+        <span>Live chamber — Downtown Lift Lock</span>
+        <span class="points-counter">Points <span class="mono" id="pointsVal">0</span></span>
+      </div>
+
+      <svg id="liftlockSvg" viewBox="0 0 360 420" width="100%">
+        <!-- background sky -->
+        <rect x="0" y="0" width="360" height="420" rx="16" fill="#eef3ee"/>
+        <!-- distant guide towers -->
+        <rect x="60" y="30" width="18" height="330" fill="#d8dfd6"/>
+        <rect x="282" y="30" width="18" height="330" fill="#d8dfd6"/>
+        <!-- near guide towers -->
+        <rect x="96" y="20" width="20" height="360" fill="#c7cfc4"/>
+        <rect x="244" y="20" width="20" height="360" fill="#c7cfc4"/>
+        <!-- top canal water level -->
+        <rect x="60" y="16" width="240" height="10" fill="#7fa79e"/>
+        <!-- lower canal water level -->
+        <rect x="0" y="382" width="360" height="38" fill="#588f85"/>
+
+        <!-- rising chamber (trough) group — position animated by script.js via transform -->
+        <g id="chamber">
+          <rect x="120" y="0" width="120" height="44" rx="4" fill="#0f3b36"/>
+          <rect x="126" y="6" width="108" height="26" rx="2" fill="#3f7d73"/>
+          <!-- boat riding inside the chamber -->
+          <g id="boat" transform="translate(155,10)">
+            <path d="M0 14 L50 14 L42 24 L8 24 Z" fill="#c1442a"/>
+            <rect x="18" y="2" width="14" height="12" rx="2" fill="#e4a527"/>
+          </g>
+        </g>
+
+        <!-- brick base -->
+        <rect x="0" y="392" width="360" height="28" fill="#b7794f"/>
+        <!-- distant town skyline silhouette -->
+        <rect x="20" y="370" width="16" height="20" fill="#9c3520" opacity="0.35"/>
+        <rect x="40" y="360" width="14" height="30" fill="#9c3520" opacity="0.25"/>
+        <rect x="316" y="368" width="16" height="22" fill="#9c3520" opacity="0.35"/>
+        <rect x="336" y="358" width="14" height="32" fill="#9c3520" opacity="0.25"/>
+      </svg>
+
+      <p style="font-size:0.78rem;color:var(--ink-soft);margin:12px 4px 2px;line-height:1.5;">
+        Inspired by the Peterborough Lift Lock — the tallest hydraulic lift lock on Earth. Your rewards work the same way: every purchase raises the chamber.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- =========================================================
+     SECTION 3: "HOW IT WORKS" — 3 STEPS
+     ========================================================= -->
+<section id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">How it works</div>
+      <h2>Three steps. One chamber. Rising the whole way.</h2>
+      <p>Just like the real lift lock a few blocks from downtown, the mechanism is simple: fill it, and it rises on its own.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-level">Lower chamber</div>
+        <h3>Tap in at checkout</h3>
+        <p>Show your Lockstep code at any participating shop — no separate app or punch card for each one. One code, every business in town.</p>
+      </div>
+      <div class="step">
+        <div class="step-level">Mid-rise</div>
+        <h3>Collect points automatically</h3>
+        <p>Points land the second you pay. Track every business you've supported this month in one running tally, right on your home screen.</p>
+      </div>
+      <div class="step">
+        <div class="step-level">Upper chamber</div>
+        <h3>Redeem where you earned it</h3>
+        <p>Cash in points for a free drip coffee, a pint at the brewery, or ten percent off your next studio class — at the exact shop that earned them.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     SECTION 4: LOCAL BUSINESS GRID
+     ========================================================= -->
+<section id="businesses" style="background:var(--paper);">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Every corner of PTBO</div>
+      <h2>Built for the shops you already love</h2>
+      <p>From George Street to the East City bridge, Lockstep works the same way at every till.</p>
+    </div>
+    <div class="biz-grid">
+      <div class="biz-card"><div class="biz-icon">☕</div><h4>Jackson Creek Coffee</h4><div class="biz-tag">Downtown · Café</div></div>
+      <div class="biz-card"><div class="biz-icon">🍺</div><h4>Lock 21 Brewing Co.</h4><div class="biz-tag">Ashburnham · Brewery</div></div>
+      <div class="biz-card"><div class="biz-icon">📚</div><h4>Hunter St. Book Room</h4><div class="biz-tag">Downtown · Books</div></div>
+      <div class="biz-card"><div class="biz-icon">🥐</div><h4>Millbrook Bakehouse</h4><div class="biz-tag">East City · Bakery</div></div>
+      <div class="biz-card"><div class="biz-icon">✂️</div><h4>Parkhill Barber Supply</h4><div class="biz-tag">Old West End · Barber</div></div>
+      <div class="biz-card"><div class="biz-icon">🌿</div><h4>Riverside Flower Co.</h4><div class="biz-tag">Downtown · Florist</div></div>
+      <div class="biz-card"><div class="biz-icon">🍜</div><h4>Del Crary Kitchen</h4><div class="biz-tag">Downtown · Restaurant</div></div>
+      <div class="biz-card"><div class="biz-icon">🚴</div><h4>Trent Valley Cycle</h4><div class="biz-tag">Northcrest · Bike shop</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     SECTION 5: REWARDS TIERS + RISING RAIL
+     (Rail fill height is animated by script.js)
+     ========================================================= -->
+<section id="tiers">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Rewards tiers</div>
+      <h2>The more you shop local, the higher you rise</h2>
+      <p>Named for the waterway that built this city — climb from Towpath to Lockmaster.</p>
+    </div>
+    <div class="tiers-wrap">
+
+      <!-- 5a. Vertical rail visual -->
+      <div class="rail-holder">
+        <svg width="70" height="320" viewBox="0 0 70 320">
+          <rect x="28" y="4" width="14" height="312" rx="7" fill="#dfe6de"/>
+          <rect id="railFill" x="28" y="216" width="14" height="100" rx="7" fill="var(--brick)"/>
+          <circle cx="35" cy="284" r="9" fill="#b7794f" stroke="#faf6ee" stroke-width="3"/>
+          <circle cx="35" cy="160" r="9" fill="#5c6670" stroke="#faf6ee" stroke-width="3"/>
+          <circle cx="35" cy="36" r="9" fill="#c1442a" stroke="#faf6ee" stroke-width="3"/>
+        </svg>
+      </div>
+
+      <!-- 5b. Tier cards -->
+      <div class="tier-list">
+        <div class="tier-card tier-1">
+          <div class="tier-name">Towpath</div>
+          <div class="tier-desc">Everyone starts here. Earn 1 point per dollar at any Lockstep business, no minimum spend.</div>
+          <div class="tier-thresh">0 – 499 pts</div>
+        </div>
+        <div class="tier-card tier-2">
+          <div class="tier-name">Waterway</div>
+          <div class="tier-desc">10% bonus points storewide, plus early access to seasonal pop-ups and local makers markets.</div>
+          <div class="tier-thresh">500 – 1999 pts</div>
+        </div>
+        <div class="tier-card tier-3">
+          <div class="tier-name">Lockmaster</div>
+          <div class="tier-desc">Double points, a standing spot on the "support local" leaderboard, and first invite to every business's founding-day event.</div>
+          <div class="tier-thresh">2000+ pts</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     SECTION 6: BUSINESS-OWNER CALL-TO-ACTION BAND
+     ========================================================= -->
+<section id="owners" style="background:var(--paper);">
+  <div class="wrap">
+    <div class="owner-band">
+      <div class="wrap-inner">
+        <div>
+          <div class="eyebrow" style="color:var(--gold-soft);">For Peterborough business owners</div>
+          <h2>Turn first-time visitors into regulars — without building anything yourself</h2>
+          <p>List your shop on Lockstep and get a countertop QR code in a week. No punch cards to print, no separate app to maintain, no per-transaction fees for your first 90 days.</p>
+          <ul class="owner-list">
+            <li>Set your own point value and reward menu</li>
+            <li>See which regulars visit weekly vs. monthly</li>
+            <li>Get discovered by loyal customers of the shop next door</li>
+          </ul>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <a href="#" class="btn btn-primary" style="justify-content:center;">List my business</a>
+          <a href="#" class="btn" style="justify-content:center;border:1.5px solid rgba(239,231,216,0.4);color:var(--paper-light);">Talk to our team</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================================================
+     SECTION 7: FOOTER
+     ========================================================= -->
+<footer id="get-app">
+  <div class="wrap">
+    <div class="foot-wrap">
+      <div>
+        <div class="logo" style="margin-bottom:12px;">
+          <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+            <rect x="4" y="6" width="22" height="18" rx="2" fill="#0f3b36"/>
+            <rect x="9" y="2" width="3" height="26" fill="#c1442a"/>
+            <rect x="18" y="2" width="3" height="26" fill="#c1442a"/>
+            <rect x="7" y="14" width="16" height="7" rx="1" fill="#e4a527"/>
+          </svg>
+          Lockstep
+        </div>
+        <p class="foot-tag">A loyalty program built for Peterborough, by people who'd rather see the money stay on this side of Lock 21.</p>
+        <div style="display:flex;gap:10px;margin-top:18px;">
+          <a href="#" class="btn btn-ghost" style="padding:10px 16px;font-size:0.82rem;">Download for iOS</a>
+          <a href="#" class="btn btn-ghost" style="padding:10px 16px;font-size:0.82rem;">Download for Android</a>
+        </div>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h5>Product</h5>
+          <a href="#how">How it works</a>
+          <a href="#tiers">Rewards tiers</a>
+          <a href="#businesses">Find a business</a>
+        </div>
+        <div class="foot-col">
+          <h5>Business</h5>
+          <a href="#owners">List your shop</a>
+          <a href="#">Pricing</a>
+          <a href="#">Success stories</a>
+        </div>
+        <div class="foot-col">
+          <h5>Company</h5>
+          <a href="#">About</a>
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Demo concept, not an active service · Peterborough, Ontario</span>
+      <span>© Lockstep</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= JAVASCRIPT (separate file) ================= -->
+<script src="lock.js"></script>
+
+</body>
+</html>

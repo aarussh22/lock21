@@ -1,0 +1,288 @@
+/* =========================================================================
+   LOCKSTEP — PETERBOROUGH LOCAL REWARDS
+   STYLESHEET (styles.css)
+   =========================================================================
+   Table of contents:
+     1. Design tokens (colors, radius)
+     2. Global resets & base typography
+     3. Navigation bar
+     4. Hero section
+     5. Lift-lock SVG visual card
+     6. Generic section / heading layout
+     7. "How it works" steps
+     8. Local business grid
+     9. Rewards tiers + rising rail
+     10. Business-owner call-to-action band
+     11. Footer
+     12. Accessibility (reduced motion)
+   ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+   1. DESIGN TOKENS
+   All colors and shared values live here so the rest of the file never
+   hardcodes a hex value. Change the palette in one place.
+------------------------------------------------------------------------- */
+:root{
+  --river-deep:#0f3b36;     /* deep river teal — primary brand color */
+  --river-deep-2:#0b2b27;   /* darker hover state for river teal */
+  --brick:#c1442a;          /* heritage downtown brick — accent / CTA color */
+  --brick-dark:#9c3520;     /* darker hover state for brick */
+  --gold:#e4a527;           /* lift-lock brass / autumn gold */
+  --gold-soft:#f0c669;      /* lighter gold for text-on-dark */
+  --paper:#efe7d8;          /* warm cream background (section alt) */
+  --paper-light:#faf6ee;    /* lightest cream background (default) */
+  --ink:#1e2420;            /* primary text color */
+  --ink-soft:#4a534c;       /* secondary / muted text color */
+  --line:rgba(30,36,32,0.12); /* hairline border color */
+  --radius:14px;            /* shared corner radius for cards */
+}
+
+
+/* -------------------------------------------------------------------------
+   2. GLOBAL RESETS & BASE TYPOGRAPHY
+------------------------------------------------------------------------- */
+*{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  margin:0;
+  background:var(--paper-light);
+  color:var(--ink);
+  font-family:'Inter', sans-serif;      /* body/UI face */
+  -webkit-font-smoothing:antialiased;
+}
+
+h1, h2, h3, .display{
+  font-family:'Fraunces', serif;        /* display/headline face */
+  font-weight:600;
+  letter-spacing:-0.01em;
+  margin:0;
+}
+
+.mono{ font-family:'JetBrains Mono', monospace; } /* utility/data face */
+
+a{ color:inherit; text-decoration:none; }
+img, svg{ display:block; max-width:100%; }
+
+/* Shared max-width content wrapper used inside every section */
+.wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+@media (max-width:640px){ .wrap{ padding:0 20px; } }
+
+
+/* -------------------------------------------------------------------------
+   3. NAVIGATION BAR
+------------------------------------------------------------------------- */
+.nav{
+  position:sticky; top:0; z-index:50;
+  background:rgba(250,246,238,0.86);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:74px; }
+
+.logo{ display:flex; align-items:center; gap:10px; font-family:'Fraunces',serif; font-weight:700; font-size:1.35rem; }
+.logo-mark{ width:30px; height:30px; flex:none; }
+
+.nav-links{ display:flex; gap:32px; font-size:0.94rem; font-weight:500; color:var(--ink-soft); }
+.nav-links a:hover{ color:var(--ink); }
+
+.nav-cta{
+  background:var(--river-deep); color:var(--paper-light);
+  padding:10px 20px; border-radius:100px; font-size:0.9rem; font-weight:600;
+  white-space:nowrap;
+}
+.nav-cta:hover{ background:var(--river-deep-2); }
+
+@media (max-width:820px){ .nav-links{ display:none; } }
+
+
+/* -------------------------------------------------------------------------
+   4. HERO SECTION
+------------------------------------------------------------------------- */
+.hero{ position:relative; overflow:hidden; padding:88px 0 60px; }
+
+/* Soft ambient gradient glow behind the hero copy/visual */
+.hero::before{
+  content:"";
+  position:absolute; inset:0; z-index:0;
+  background:
+    radial-gradient(600px 300px at 85% 10%, rgba(228,165,39,0.14), transparent 70%),
+    radial-gradient(700px 500px at 10% 90%, rgba(15,59,54,0.08), transparent 70%);
+}
+
+.hero .wrap{
+  position:relative; z-index:1;
+  display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;
+}
+@media (max-width:900px){ .hero .wrap{ grid-template-columns:1fr; gap:44px; } }
+
+.eyebrow{
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'JetBrains Mono',monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase;
+  color:var(--brick); font-weight:600; margin-bottom:20px;
+}
+.eyebrow::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--brick); }
+
+.hero h1{ font-size:clamp(2.4rem,5vw,3.6rem); line-height:1.04; color:var(--ink); }
+.hero h1 em{ font-style:normal; color:var(--brick); }
+.hero p.lead{ font-size:1.13rem; line-height:1.6; color:var(--ink-soft); max-width:46ch; margin:22px 0 32px; }
+
+/* Buttons (shared across hero, sections, footer) */
+.btn-row{ display:flex; gap:14px; flex-wrap:wrap; }
+.btn{
+  display:inline-flex; align-items:center; gap:9px; padding:14px 24px; border-radius:100px;
+  font-weight:700; font-size:0.95rem; border:1.5px solid transparent; transition:transform .15s ease;
+}
+.btn:hover{ transform:translateY(-2px); }
+.btn-primary{ background:var(--brick); color:var(--paper-light); }
+.btn-primary:hover{ background:var(--brick-dark); }
+.btn-ghost{ border-color:var(--ink); color:var(--ink); }
+.btn-ghost:hover{ background:var(--ink); color:var(--paper-light); }
+
+.hero-stats{ display:flex; gap:30px; margin-top:40px; }
+.hero-stats div{ border-left:2px solid var(--line); padding-left:14px; }
+.hero-stats b{ display:block; font-family:'Fraunces',serif; font-size:1.5rem; color:var(--river-deep); }
+.hero-stats span{ font-size:0.82rem; color:var(--ink-soft); }
+
+
+/* -------------------------------------------------------------------------
+   5. LIFT-LOCK SVG VISUAL CARD
+   Wraps the animated SVG (animation logic lives in script.js)
+------------------------------------------------------------------------- */
+.lock-stage{
+  position:relative;
+  background:linear-gradient(180deg, #eef3ee 0%, var(--paper) 100%);
+  border-radius:22px; padding:22px; border:1px solid var(--line);
+}
+.lock-caption{
+  display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;
+  font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--ink-soft);
+  text-transform:uppercase; letter-spacing:0.08em;
+}
+.points-counter{ color:var(--river-deep); font-weight:700; }
+.points-counter span{ color:var(--gold-soft); background:var(--river-deep); padding:2px 8px; border-radius:6px; margin-left:6px; }
+
+
+/* -------------------------------------------------------------------------
+   6. GENERIC SECTION / HEADING LAYOUT
+   Reusable centered heading block used at the top of every section
+------------------------------------------------------------------------- */
+section{ padding:96px 0; }
+.section-head{ max-width:640px; margin:0 auto 56px; text-align:center; }
+.section-head .eyebrow{ display:flex; justify-content:center; }
+.section-head h2{ font-size:clamp(1.8rem,3.4vw,2.5rem); }
+.section-head p{ color:var(--ink-soft); font-size:1.05rem; line-height:1.6; margin-top:14px; }
+
+
+/* -------------------------------------------------------------------------
+   7. "HOW IT WORKS" STEPS
+   Three cards staggered vertically like ascending lock platforms
+------------------------------------------------------------------------- */
+.steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:end; }
+@media (max-width:800px){ .steps{ grid-template-columns:1fr; } }
+
+.step{
+  background:var(--paper-light); border:1px solid var(--line); border-radius:var(--radius);
+  padding:30px 26px; position:relative;
+}
+.step:nth-child(1){ transform:translateY(28px); }
+.step:nth-child(2){ transform:translateY(14px); }
+@media (max-width:800px){ .step:nth-child(1), .step:nth-child(2){ transform:none; } }
+
+.step-level{
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--gold-soft);
+  background:var(--river-deep); display:inline-block; padding:3px 10px; border-radius:6px; margin-bottom:16px;
+}
+.step h3{ font-size:1.25rem; margin-bottom:10px; }
+.step p{ color:var(--ink-soft); font-size:0.95rem; line-height:1.55; margin:0; }
+
+
+/* -------------------------------------------------------------------------
+   8. LOCAL BUSINESS GRID
+------------------------------------------------------------------------- */
+.biz-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+@media (max-width:900px){ .biz-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:520px){ .biz-grid{ grid-template-columns:1fr; } }
+
+.biz-card{
+  border:1px solid var(--line); border-radius:var(--radius); padding:22px 20px; background:var(--paper-light);
+  transition:border-color .15s ease, transform .15s ease;
+}
+.biz-card:hover{ border-color:var(--brick); transform:translateY(-3px); }
+
+.biz-icon{
+  width:44px; height:44px; border-radius:10px; background:var(--river-deep); color:var(--gold-soft);
+  display:flex; align-items:center; justify-content:center; margin-bottom:16px; font-size:1.3rem;
+}
+.biz-card h4{ font-family:'Fraunces',serif; font-weight:600; font-size:1.08rem; margin:0 0 4px; }
+.biz-tag{ font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--ink-soft); text-transform:uppercase; letter-spacing:0.05em; }
+
+
+/* -------------------------------------------------------------------------
+   9. REWARDS TIERS + RISING RAIL
+   The vertical SVG rail's fill height is animated in script.js
+------------------------------------------------------------------------- */
+.tiers-wrap{ display:grid; grid-template-columns:120px 1fr; gap:40px; align-items:stretch; }
+@media (max-width:760px){ .tiers-wrap{ grid-template-columns:1fr; } }
+
+.rail-holder{ display:flex; justify-content:center; }
+.tier-list{ display:flex; flex-direction:column; gap:18px; justify-content:center; }
+
+.tier-card{
+  display:flex; align-items:center; gap:20px; border:1px solid var(--line); border-radius:var(--radius);
+  padding:20px 24px; background:var(--paper-light);
+}
+.tier-name{ font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem; min-width:150px; }
+.tier-1 .tier-name{ color:#8a6a3d; } /* Towpath (bronze) */
+.tier-2 .tier-name{ color:#5c6670; } /* Waterway (silver) */
+.tier-3 .tier-name{ color:var(--brick); } /* Lockmaster (top tier) */
+.tier-desc{ color:var(--ink-soft); font-size:0.92rem; line-height:1.5; }
+.tier-thresh{ margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:0.8rem; color:var(--ink-soft); white-space:nowrap; padding-left:16px; }
+
+
+/* -------------------------------------------------------------------------
+   10. BUSINESS-OWNER CALL-TO-ACTION BAND
+------------------------------------------------------------------------- */
+.owner-band{ background:var(--river-deep); color:var(--paper-light); border-radius:24px; padding:56px 48px; }
+@media (max-width:640px){ .owner-band{ padding:40px 26px; } }
+
+.owner-band .wrap-inner{ display:grid; grid-template-columns:1.3fr 0.7fr; gap:40px; align-items:center; }
+@media (max-width:800px){ .owner-band .wrap-inner{ grid-template-columns:1fr; } }
+
+.owner-band h2{ color:var(--paper-light); font-size:clamp(1.6rem,3vw,2.2rem); margin-bottom:14px; }
+.owner-band p{ color:rgba(239,231,216,0.82); line-height:1.6; font-size:1.02rem; }
+
+.owner-list{ list-style:none; margin:22px 0 0; padding:0; display:flex; flex-direction:column; gap:10px; }
+.owner-list li{ display:flex; align-items:center; gap:10px; font-size:0.95rem; color:var(--paper-light); }
+.owner-list li::before{ content:"↑"; color:var(--gold-soft); font-weight:700; }
+
+.owner-band .btn-primary{ background:var(--gold); color:var(--river-deep-2); }
+.owner-band .btn-primary:hover{ background:var(--gold-soft); }
+
+
+/* -------------------------------------------------------------------------
+   11. FOOTER
+------------------------------------------------------------------------- */
+footer{ padding:56px 0 40px; border-top:1px solid var(--line); }
+.foot-wrap{ display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:24px; }
+.foot-tag{ color:var(--ink-soft); font-size:0.9rem; max-width:34ch; line-height:1.5; }
+.foot-cols{ display:flex; gap:56px; flex-wrap:wrap; }
+.foot-col h5{ font-family:'JetBrains Mono',monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:12px; }
+.foot-col a{ display:block; font-size:0.92rem; margin-bottom:8px; color:var(--ink); }
+.foot-col a:hover{ color:var(--brick); }
+.foot-bottom{ margin-top:48px; padding-top:20px; border-top:1px solid var(--line); font-size:0.8rem; color:var(--ink-soft); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+
+
+/* -------------------------------------------------------------------------
+   12. ACCESSIBILITY — RESPECT REDUCED MOTION PREFERENCE
+   script.js also checks this same media query before starting animation
+------------------------------------------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  *{
+    animation-duration:0.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.001ms !important;
+  }
+}
