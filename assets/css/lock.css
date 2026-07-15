@@ -24,18 +24,30 @@
    hardcodes a hex value. Change the palette in one place.
 ------------------------------------------------------------------------- */
 :root{
-  --river-deep:#0f3b36;     /* deep river teal — primary brand color */
-  --river-deep-2:#0b2b27;   /* darker hover state for river teal */
-  --brick:#c1442a;          /* heritage downtown brick — accent / CTA color */
-  --brick-dark:#9c3520;     /* darker hover state for brick */
-  --gold:#e4a527;           /* lift-lock brass / autumn gold */
-  --gold-soft:#f0c669;      /* lighter gold for text-on-dark */
-  --paper:#efe7d8;          /* warm cream background (section alt) */
-  --paper-light:#faf6ee;    /* lightest cream background (default) */
-  --ink:#1e2420;            /* primary text color */
-  --ink-soft:#4a534c;       /* secondary / muted text color */
-  --line:rgba(30,36,32,0.12); /* hairline border color */
-  --radius:14px;            /* shared corner radius for cards */
+  /* Primary City Blue */
+  --river-deep:#0E74B8;
+  --river-deep-2:#0A5F98;
+
+  /* Accent Blue */
+  --brick:#5FA9D8;
+  --brick-dark:#2C86C5;
+
+  /* Optional Gold Accent */
+  --gold:#F4B223;
+  --gold-soft:#FFD56A;
+
+  /* Backgrounds */
+  --paper:#F4F8FB;
+  --paper-light:#FFFFFF;
+
+  /* Text */
+  --ink:#17324D;
+  --ink-soft:#5D7288;
+
+  /* Borders */
+  --line:rgba(14,116,184,0.15);
+
+  --radius:14px;
 }
 
 
@@ -76,7 +88,7 @@ img, svg{ display:block; max-width:100%; }
 ------------------------------------------------------------------------- */
 .nav{
   position:sticky; top:0; z-index:50;
-  background:rgba(250,246,238,0.86);
+  background: white);
   backdrop-filter:blur(10px);
   border-bottom:1px solid var(--line);
 }
@@ -180,24 +192,93 @@ section{ padding:96px 0; }
    7. "HOW IT WORKS" STEPS
    Three cards staggered vertically like ascending lock platforms
 ------------------------------------------------------------------------- */
-.steps{ display:grid; grid-template-columns:repeat(3,1fr); gap:28px; align-items:end; }
-@media (max-width:800px){ .steps{ grid-template-columns:1fr; } }
-
-.step{
-  background:var(--paper-light); border:1px solid var(--line); border-radius:var(--radius);
-  padding:30px 26px; position:relative;
+..how-it-works{
+    text-align:center;
+    padding:100px 20px;
 }
-.step:nth-child(1){ transform:translateY(28px); }
-.step:nth-child(2){ transform:translateY(14px); }
-@media (max-width:800px){ .step:nth-child(1), .step:nth-child(2){ transform:none; } }
 
-.step-level{
-  font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--gold-soft);
-  background:var(--river-deep); display:inline-block; padding:3px 10px; border-radius:6px; margin-bottom:16px;
+.subtitle{
+    max-width:650px;
+    margin:20px auto 60px;
+    color:#5f7286;
 }
-.step h3{ font-size:1.25rem; margin-bottom:10px; }
-.step p{ color:var(--ink-soft); font-size:0.95rem; line-height:1.55; margin:0; }
 
+.progress-wrapper{
+    display:flex;
+    justify-content:center;
+    margin-bottom:60px;
+}
+
+.progress-circle{
+    position:relative;
+    width:260px;
+    height:260px;
+}
+
+.progress-circle svg{
+    width:100%;
+    height:100%;
+}
+
+.bg-circle{
+    fill:#edf4fb;
+}
+
+.segment{
+    fill:#d7e9f8;
+    opacity:.35;
+    transition:.6s;
+}
+
+.segment.active{
+    fill:#0E74B8;
+    opacity:1;
+    filter:drop-shadow(0 0 12px rgba(14,116,184,.7));
+}
+
+.center-text{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.center-text span{
+    font-size:34px;
+    font-weight:700;
+}
+
+.steps{
+    display:flex;
+    justify-content:center;
+    gap:70px;
+    flex-wrap:wrap;
+}
+
+.steps div{
+    max-width:180px;
+}
+
+.steps h3{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#0E74B8;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:auto;
+    margin-bottom:15px;
+}
+
+.terms{
+    margin-top:50px;
+    font-size:.85rem;
+    color:#777;
+}
 
 /* -------------------------------------------------------------------------
    8. LOCAL BUSINESS GRID

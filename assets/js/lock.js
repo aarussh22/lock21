@@ -7,6 +7,7 @@
      2. Reduced-motion check
      3. Animation loop (chamber rise + points counter + tier rail fill)
      4. Start / fallback
+     5. How it works
    ========================================================================= */
 
 (function () {
@@ -89,4 +90,48 @@
     pointsEl.textContent = '640';
   }
 
+   /* -----------------------------------------------------------------------
+     5. How it works circle fill
+  ----------------------------------------------------------------------- */
+const segments = [
+    document.getElementById("seg1"),
+    document.getElementById("seg2"),
+    document.getElementById("seg3")
+];
+
+let current = 0;
+
+function animateProgress(){
+
+    segments.forEach(seg=>{
+        seg.classList.remove("active");
+    });
+
+    for(let i=0;i<=current;i++){
+        segments[i].classList.add("active");
+    }
+
+    current++;
+
+    if(current===3){
+
+        setTimeout(()=>{
+
+            segments.forEach(seg=>{
+                seg.classList.remove("active");
+            });
+
+            current=0;
+
+        },1500);
+
+    }
+
+}
+
+animateProgress();
+
+setInterval(animateProgress,1200);
+
+  
 })();
