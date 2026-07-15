@@ -5,19 +5,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Lock21 — Peterborough's Local Rewards</title>
-
   <!-- ================= FONTS ================= -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
-
   <!-- ================= STYLESHEET (separate file) ================= -->
-  <link rel="stylesheet" href="lock.css">
+  <link rel="stylesheet" href="./assets/css/lock.css">
 </head>
 
 <body>
-
   <!-- =========================================================
      SECTION 1: NAVIGATION BAR
      ========================================================= -->
@@ -36,12 +33,11 @@
         <a href="#how">How it works</a>
         <a href="#businesses">Local businesses</a>
         <a href="#tiers">Rewards tiers</a>
+        <a href="#customers">For customers</a>
         <a href="#owners">For business owners</a>
       </div>
     </div>
   </nav>
-
-
   <!-- =========================================================
      SECTION 2: HERO
      Left: headline + CTAs + stats. Right: animated lift-lock SVG.
@@ -49,30 +45,24 @@
      ========================================================= -->
   <section class="hero">
     <div class="wrap">
-
       <!-- 2a. Hero copy -->
       <div>
-        <div class="eyebrow">Made in Peterborough, Ontario</div>
+        <div class="eyebrow">Made for Peterborough, Ontario</div>
         <h1>Every coffee, pint, and haircut <em>lifts</em> this city a little higher.</h1>
-        <p class="lead">Lock21 is the one rewards card for every independent shop, café, and studio in town. Tap in,
+        <p class="lead">Lock21 is the one rewards card for every independent shop, café, and studio in town. Scan in,
           collect points, and watch your loyalty rise — literally — with every local business you support.</p>
-        <div class="btn-row">
-          <a href="#owners" class="btn btn-ghost">I run a business</a>
-        </div>
         <div class="hero-stats">
-          <div><b>110+</b><span>local businesses onboard</span></div>
-          <div><b>$0</b><span>cost to shop and earn</span></div>
+          <div><b>110+</b><span>local businesses </span></div>
+          <div><b>$0</b><span>cost to earn rewards</span></div>
           <div><b>1</b><span>card for the whole city</span></div>
         </div>
       </div>
-
       <!-- 2b. Animated lift-lock SVG card -->
       <div class="lock-stage">
         <div class="lock-caption">
           <span>Live chamber — Peterborough Lift Lock</span>
           <span class="points-counter">Points <span class="mono" id="pointsVal">0</span></span>
         </div>
-
         <svg id="liftlockSvg" viewBox="0 0 360 420" width="100%">
           <!-- background sky -->
           <rect x="0" y="0" width="360" height="420" rx="16" fill="#eef3ee" />
@@ -86,7 +76,6 @@
           <rect x="60" y="16" width="240" height="10" fill="#7fa79e" />
           <!-- lower canal water level -->
           <rect x="0" y="382" width="360" height="38" fill="#588f85" />
-
           <!-- rising chamber (trough) group — position animated by script.js via transform -->
           <g id="chamber">
             <rect x="120" y="0" width="120" height="44" rx="4" fill="#0f3b36" />
@@ -97,7 +86,6 @@
               <rect x="18" y="2" width="14" height="12" rx="2" fill="#e4a527" />
             </g>
           </g>
-
           <!-- brick base -->
           <rect x="0" y="392" width="360" height="28" fill="#b7794f" />
           <!-- distant town skyline silhouette -->
@@ -106,17 +94,13 @@
           <rect x="316" y="368" width="16" height="22" fill="#9c3520" opacity="0.35" />
           <rect x="336" y="358" width="14" height="32" fill="#9c3520" opacity="0.25" />
         </svg>
-
         <p style="font-size:0.78rem;color:var(--ink-soft);margin:12px 4px 2px;line-height:1.5;">
           Inspired by the Peterborough Lift Lock — the tallest hydraulic lift lock on Earth. Your rewards work the same
           way: every purchase raises the chamber.
         </p>
       </div>
-
     </div>
   </section>
-
-
   <!-- =========================================================
      SECTION 3: "HOW IT WORKS" — 3 STEPS
      ========================================================= -->
@@ -131,7 +115,7 @@
       <div class="steps">
         <div class="step">
           <div class="step-level">Lower chamber</div>
-          <h3>Tap in at checkout</h3>
+          <h3>Scan in at checkout</h3>
           <p>Show your Lock21 code at any participating shop — no separate app or punch card for each one. One code,
             every business in town.</p>
         </div>
@@ -150,8 +134,6 @@
       </div>
     </div>
   </section>
-
-
   <!-- =========================================================
      SECTION 4: LOCAL BUSINESS GRID
      ========================================================= -->
@@ -206,8 +188,6 @@
       </div>
     </div>
   </section>
-
-
   <!-- =========================================================
      SECTION 5: REWARDS TIERS + RISING RAIL
      (Rail fill height is animated by script.js)
@@ -220,7 +200,6 @@
         <p>Named for the waterway that built this city — climb from Towpath to Lockmaster.</p>
       </div>
       <div class="tiers-wrap">
-
         <!-- 5a. Vertical rail visual -->
         <div class="rail-holder">
           <svg width="70" height="320" viewBox="0 0 70 320">
@@ -231,7 +210,6 @@
             <circle cx="35" cy="36" r="9" fill="#c1442a" stroke="#faf6ee" stroke-width="3" />
           </svg>
         </div>
-
         <!-- 5b. Tier cards -->
         <div class="tier-list">
           <div class="tier-card tier-1">
@@ -253,14 +231,41 @@
             <div class="tier-thresh">2000+ pts</div>
           </div>
         </div>
-
       </div>
     </div>
   </section>
-
-
   <!-- =========================================================
-     SECTION 6: BUSINESS-OWNER CALL-TO-ACTION BAND
+     SECTION 6: CUSTOMER REWARDS SIGN-UP CALL-TO-ACTION BAND
+     (Mirrors the business-owner CTA band in structure & styling)
+     ========================================================= -->
+  <section id="customers" style="background:var(--paper);">
+    <div class="wrap">
+      <div class="owner-band">
+        <div class="wrap-inner">
+          <div>
+            <div class="eyebrow" style="color:var(--gold-soft);">For Peterborough shoppers</div>
+            <h2>Start earning rewards at every shop you already visit</h2>
+            <p>Sign up for Lock21 in under a minute and get your card ready to scan <input type="button" value=""> at
+              any participating business —
+              no fees, no app to install, and no separate loyalty card cluttering your wallet.</p>
+            <ul class="owner-list">
+              <li>Earn points automatically every time you scan in</li>
+              <li>Track your tier progress across all 110+ local businesses</li>
+              <li>Redeem rewards at the exact shop that earned them</li>
+            </ul>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="#" class="btn btn-primary" style="justify-content:center;">Sign up for rewards</a>
+            <a href="#how" class="btn"
+              style="justify-content:center;border:1.5px solid rgba(239,231,216,0.4);color:var(--paper-light);">See
+              how it works</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- =========================================================
+     SECTION 7: BUSINESS-OWNER CALL-TO-ACTION BAND
      ========================================================= -->
   <section id="owners" style="background:var(--paper);">
     <div class="wrap">
@@ -287,10 +292,8 @@
       </div>
     </div>
   </section>
-
-
   <!-- =========================================================
-     SECTION 7: FOOTER
+     SECTION 8: FOOTER
      ========================================================= -->
   <footer id="get-app">
     <div class="wrap">
@@ -310,16 +313,14 @@
         </div>
         <div class="foot-cols">
           <div class="foot-col">
-            <h5>Product</h5>
+            <h5>Service</h5>
             <a href="#how">How it works</a>
             <a href="#tiers">Rewards tiers</a>
-            <a href="#businesses">Find a business</a>
           </div>
           <div class="foot-col">
             <h5>Business</h5>
-            <a href="#owners">List your shop</a>
-            <a href="#">Pricing</a>
-            <a href="#">Success stories</a>
+            <a href="#owners">List your shop at no price</a>
+            <a href="#businesses">Find a business</a>
           </div>
           <div class="foot-col">
             <h5>Company</h5>
@@ -329,15 +330,13 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>Demo concept, not an active service · Peterborough, Ontario</span>
+        <span>Peterborough, Ontario</span>
         <span>© Lock21</span>
       </div>
     </div>
   </footer>
-
   <!-- ================= JAVASCRIPT (separate file) ================= -->
-  <script src="lock.js"></script>
-
+  <script src="./assets/js/lock.js"></script>
 </body>
 
 </html>

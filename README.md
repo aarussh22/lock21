@@ -1,10 +1,18 @@
-# lock21
+# Changes Section (to do list)
 
-locking local businesses up
+## July 14
 
-## Stage 1 Improvement - Website
+---
 
-### Section 2 - Hero
+Icon - change
+Made in change made for
+Tagline needed
+I run a business remove
+Register no option
 
-1. Different animation
-2. Point -> Stamps (Up to 21; in stages of 7?)
+---
+
+Taglines
+Reward system
+What lock21
+Different tier
