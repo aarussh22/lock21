@@ -65,125 +65,160 @@
         </div>
       </div>
       <!-- 2b. Animated lift-lock SVG card -->
+     <!-- 2b. Animated 3-step lift-lock SVG card -->
       <div class="lock-stage">
         <div class="lock-caption">
           <span>Live chamber — Peterborough Lift Lock</span>
-          <span class="points-counter">Points <span class="mono" id="pointsVal">0</span></span>
+          <span class="points-counter">Points <span class="mono" id="pointsVal">0</span><span class="mono"
+              style="opacity:0.7;"> / 21</span></span>
         </div>
+ 
         <svg id="liftlockSvg" viewBox="0 0 360 420" width="100%">
           <!-- background sky -->
-          <rect x="0" y="0" width="360" height="420" rx="16" fill="#eef3ee" />
+          <rect x="0" y="0" width="360" height="420" rx="16" fill="#eaf3fa" />
+ 
           <!-- distant guide towers -->
-          <rect x="60" y="30" width="18" height="330" fill="#d8dfd6" />
-          <rect x="282" y="30" width="18" height="330" fill="#d8dfd6" />
+          <rect x="60" y="30" width="18" height="330" fill="#d3e3ee" />
+          <rect x="282" y="30" width="18" height="330" fill="#d3e3ee" />
           <!-- near guide towers -->
-          <rect x="96" y="20" width="20" height="360" fill="#c7cfc4" />
-          <rect x="244" y="20" width="20" height="360" fill="#c7cfc4" />
+          <rect x="96" y="20" width="20" height="360" fill="#b9d2e3" />
+          <rect x="244" y="20" width="20" height="360" fill="#b9d2e3" />
+ 
           <!-- top canal water level -->
-          <rect x="60" y="16" width="240" height="10" fill="#7fa79e" />
+          <rect x="60" y="16" width="240" height="10" fill="#6fa8cc" />
           <!-- lower canal water level -->
-          <rect x="0" y="382" width="360" height="38" fill="#588f85" />
-          <!-- rising chamber (trough) group — position animated by script.js via transform -->
-          <g id="chamber">
-            <rect x="120" y="0" width="120" height="44" rx="4" fill="#0f3b36" />
-            <rect x="126" y="6" width="108" height="26" rx="2" fill="#3f7d73" />
-            <!-- boat riding inside the chamber -->
-            <g id="boat" transform="translate(155,10)">
-              <path d="M0 14 L50 14 L42 24 L8 24 Z" fill="#c1442a" />
-              <rect x="18" y="2" width="14" height="12" rx="2" fill="#e4a527" />
-            </g>
+          <rect x="0" y="382" width="360" height="38" fill="#4a8bb5" />
+ 
+          <!-- ===================================================
+               PURCHASE-STOP RUNGS
+               Three horizontal markers on the guide towers showing
+               where the chamber stops after each purchase. Each
+               glows (via lock.js) once the chamber reaches it.
+               =================================================== -->
+          <g id="rung3" opacity="0.35">
+            <rect x="96" y="16" width="20" height="6" rx="2" fill="#2f8fd1" />
+            <rect x="244" y="16" width="20" height="6" rx="2" fill="#2f8fd1" />
           </g>
+          <g id="rung2" opacity="0.35">
+            <rect x="96" y="128" width="20" height="6" rx="2" fill="#2f8fd1" />
+            <rect x="244" y="128" width="20" height="6" rx="2" fill="#2f8fd1" />
+          </g>
+          <g id="rung1" opacity="0.35">
+            <rect x="96" y="240" width="20" height="6" rx="2" fill="#2f8fd1" />
+            <rect x="244" y="240" width="20" height="6" rx="2" fill="#2f8fd1" />
+          </g>
+ 
+          <!-- rising chamber (trough) — position animated by lock.js via transform -->
+          <g id="chamber">
+            <rect x="120" y="0" width="120" height="44" rx="4" fill="#0b3d63" />
+            <rect x="126" y="6" width="108" height="26" rx="2" fill="#2f6f96" />
+          </g>
+ 
+          <!-- boat — animated independently of the chamber (slides in/out + rides the rise) -->
+          <g id="boat">
+            <path d="M0 14 L50 14 L42 24 L8 24 Z" fill="#0b3d63" />
+            <rect x="18" y="2" width="14" height="12" rx="2" fill="#2f8fd1" />
+          </g>
+ 
+          <!-- gate-light indicators: glow briefly as the boat transits each end -->
+          <circle id="gateLightBottom" cx="180" cy="397" r="5" fill="#2f8fd1" opacity="0.15" />
+          <circle id="gateLightTop" cx="180" cy="7" r="5" fill="#2f8fd1" opacity="0.15" />
+ 
+          <!-- ===================================================
+               FLOATING "+7" POPUPS
+               Shown briefly at the end of purchase 1 and purchase 2.
+               Opacity + vertical offset animated by lock.js.
+               =================================================== -->
+          <text id="popup1" x="180" y="240" text-anchor="middle" font-family="'JetBrains Mono', monospace"
+            font-weight="700" font-size="20" fill="#1565a8" opacity="0">+7</text>
+          <text id="popup2" x="180" y="128" text-anchor="middle" font-family="'JetBrains Mono', monospace"
+            font-weight="700" font-size="20" fill="#1565a8" opacity="0">+7</text>
+ 
+          <!-- ===================================================
+               "REWARD UNLOCKED" BADGE
+               Shown once the chamber completes its 3rd stop (21 pts).
+               =================================================== -->
+          <g id="rewardBadge" opacity="0">
+            <rect x="80" y="60" width="200" height="40" rx="20" fill="#0b3d63" />
+            <text x="180" y="86" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700"
+              font-size="14" fill="#ffffff">REWARD UNLOCKED · 21 PTS</text>
+          </g>
+ 
           <!-- brick base -->
-          <rect x="0" y="392" width="360" height="28" fill="#b7794f" />
+          <rect x="0" y="392" width="360" height="28" fill="#0d4f86" />
           <!-- distant town skyline silhouette -->
-          <rect x="20" y="370" width="16" height="20" fill="#9c3520" opacity="0.35" />
-          <rect x="40" y="360" width="14" height="30" fill="#9c3520" opacity="0.25" />
-          <rect x="316" y="368" width="16" height="22" fill="#9c3520" opacity="0.35" />
-          <rect x="336" y="358" width="14" height="32" fill="#9c3520" opacity="0.25" />
+          <rect x="20" y="370" width="16" height="20" fill="#0b3d63" opacity="0.25" />
+          <rect x="40" y="360" width="14" height="30" fill="#0b3d63" opacity="0.18" />
+          <rect x="316" y="368" width="16" height="22" fill="#0b3d63" opacity="0.25" />
+          <rect x="336" y="358" width="14" height="32" fill="#0b3d63" opacity="0.18" />
         </svg>
+ 
         <p style="font-size:0.78rem;color:var(--ink-soft);margin:12px 4px 2px;line-height:1.5;">
-          Inspired by the Peterborough Lift Lock — the tallest hydraulic lift lock on Earth. Your rewards work the same
-          way: every purchase raises the chamber.
+          Inspired by the Peterborough Lift Lock — the tallest hydraulic lift lock on Earth. Each of the three stops
+          above marks one purchase: 7 points, 7 points, 7 points — 21 to redeem.
         </p>
       </div>
     </div>
   </section>
+ 
   <!-- =========================================================
      SECTION 3: "HOW IT WORKS" — 3 STEPS
      ========================================================= -->
-  <section id="how">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">How it works</div>
-                  <h2> Every three purchases.<br>One reward.</h2>
+  <section class="lock21">
+
+    <p class="eyebrow">HOW IT WORKS</p>
+
+    <h2>Three purchases.<br>One reward.</h2>
 
     <p class="subtitle">
-        Every eligible purchase fills one section of your Lock21 circle.
-        Complete all three sections and unlock your reward.
+        Every purchase earns <strong>7 points.</strong><br>
+        Reach <strong>21 points</strong> and unlock your reward.
     </p>
 
-    <div class="progress-wrapper">
+    <div class="lock-wrapper">
 
-        <div class="progress-circle">
-            <svg viewBox="0 0 120 120">
+        <div class="shackle"></div>
 
-                <!-- Background -->
-                <circle
-                    cx="60"
-                    cy="60"
-                    r="48"
-                    class="bg-circle"/>
+        <div class="lock-body">
 
-                <!-- Segment 1 -->
-                <path id="seg1" class="segment"
-                    d="M60 60 L60 12
-                    A48 48 0 0 1 101 84 Z"/>
+            <div class="bars">
 
-                <!-- Segment 2 -->
-                <path id="seg2" class="segment"
-                    d="M60 60 L101 84
-                    A48 48 0 0 1 19 84 Z"/>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
 
-                <!-- Segment 3 -->
-                <path id="seg3" class="segment"
-                    d="M60 60 L19 84
-                    A48 48 0 0 1 60 12 Z"/>
+            </div>
 
-            </svg>
+            <div class="points">
 
-            <div class="center-text">
-                <span>FREE</span>
-                <small>Reward</small>
+                <span id="counter">0</span>
+
+                <small>/21 pts</small>
+
             </div>
 
         </div>
 
     </div>
 
-    <div class="steps">
+    <div class="status">
 
-        <div>
-            <h3>1</h3>
-            <p>Purchase at a participating business.</p>
-        </div>
+        Purchase #1
 
-        <div>
-            <h3>2</h3>
-            <p>Collect three qualifying purchases.</p>
-        </div>
+    </div>
 
-        <div>
-            <h3>3</h3>
-            <p>Redeem your free reward.</p>
-        </div>
+    <div class="reward">
+
+        REWARD UNLOCKED
 
     </div>
 
     <p class="terms">
-        *Terms & Conditions apply.
+        *Every purchase earns 7 points. Reward unlocks at 21 points. Terms & Conditions apply.
     </p>
 
 </section>
+
   <!-- =========================================================
      SECTION 4: LOCAL BUSINESS GRID
      ========================================================= -->

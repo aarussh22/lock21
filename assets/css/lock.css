@@ -192,94 +192,212 @@ section{ padding:96px 0; }
    7. "HOW IT WORKS" STEPS
    Three cards staggered vertically like ascending lock platforms
 ------------------------------------------------------------------------- */
-..how-it-works{
-    text-align:center;
-    padding:100px 20px;
+.{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+
+font-family:Inter,sans-serif;
+background:#F7FAFD;
+color:#17324D;
+
+}
+
+.lock21{
+
+padding:100px 20px;
+text-align:center;
+
+}
+
+.eyebrow{
+
+color:#0E74B8;
+letter-spacing:4px;
+font-size:13px;
+font-weight:700;
+margin-bottom:20px;
+
+}
+
+h2{
+
+font-size:54px;
+margin-bottom:20px;
+
 }
 
 .subtitle{
-    max-width:650px;
-    margin:20px auto 60px;
-    color:#5f7286;
+
+font-size:20px;
+color:#5B7187;
+margin-bottom:70px;
+
 }
 
-.progress-wrapper{
-    display:flex;
-    justify-content:center;
-    margin-bottom:60px;
+.lock-wrapper{
+
+display:flex;
+flex-direction:column;
+align-items:center;
+
+position:relative;
+
 }
 
-.progress-circle{
-    position:relative;
-    width:260px;
-    height:260px;
+.shackle{
+
+width:120px;
+height:90px;
+
+border:14px solid #0E74B8;
+
+border-bottom:none;
+
+border-radius:70px 70px 0 0;
+
+transition:.7s;
+
 }
 
-.progress-circle svg{
-    width:100%;
-    height:100%;
+.lock-body{
+
+width:250px;
+
+height:260px;
+
+background:white;
+
+border-radius:28px;
+
+box-shadow:0 20px 45px rgba(0,0,0,.08);
+
+margin-top:-5px;
+
+padding:40px;
+
+transition:.8s;
+
+position:relative;
+
 }
 
-.bg-circle{
-    fill:#edf4fb;
+.bars{
+
+display:flex;
+
+flex-direction:column;
+
+gap:18px;
+
+margin-top:15px;
+
 }
 
-.segment{
-    fill:#d7e9f8;
-    opacity:.35;
-    transition:.6s;
+.bar{
+
+height:18px;
+
+background:#DCEAF7;
+
+border-radius:40px;
+
+transition:.7s;
+
 }
 
-.segment.active{
-    fill:#0E74B8;
-    opacity:1;
-    filter:drop-shadow(0 0 12px rgba(14,116,184,.7));
+.bar.active{
+
+background:#0E74B8;
+
+box-shadow:0 0 18px rgba(14,116,184,.8);
+
 }
 
-.center-text{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
+.points{
+
+margin-top:45px;
+
+font-size:48px;
+
+font-weight:700;
+
 }
 
-.center-text span{
-    font-size:34px;
-    font-weight:700;
+.points small{
+
+font-size:20px;
+
+color:#777;
+
 }
 
-.steps{
-    display:flex;
-    justify-content:center;
-    gap:70px;
-    flex-wrap:wrap;
+.status{
+
+margin-top:35px;
+
+font-size:22px;
+
+font-weight:600;
+
+color:#0E74B8;
+
 }
 
-.steps div{
-    max-width:180px;
+.reward{
+
+opacity:0;
+
+margin-top:25px;
+
+font-size:32px;
+
+font-weight:700;
+
+color:#D89B09;
+
+transform:translateY(25px);
+
+transition:.6s;
+
 }
 
-.steps h3{
-    width:55px;
-    height:55px;
-    border-radius:50%;
-    background:#0E74B8;
-    color:white;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    margin:auto;
-    margin-bottom:15px;
+.reward.show{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+.unlock .shackle{
+
+transform:rotate(-28deg) translateX(-18px);
+
+transform-origin:bottom right;
+
+}
+
+.unlock .lock-body{
+
+box-shadow:
+
+0 0 60px rgba(255,194,0,.7),
+
+0 30px 60px rgba(0,0,0,.12);
+
 }
 
 .terms{
-    margin-top:50px;
-    font-size:.85rem;
-    color:#777;
-}
 
+margin-top:60px;
+
+color:#7c8ea0;
+
+}
 /* -------------------------------------------------------------------------
    8. LOCAL BUSINESS GRID
 ------------------------------------------------------------------------- */
