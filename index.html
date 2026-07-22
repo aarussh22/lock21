@@ -11,7 +11,7 @@
     href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
     rel="stylesheet">
   <!-- ================= STYLESHEET (separate file) ================= -->
-  <link rel="stylesheet" href="./assets/css/lock.css">
+  <link rel="stylesheet" href="./src/css/lock.css">
 </head>
 
 <body>
@@ -49,14 +49,20 @@
       <div>
         <div class="eyebrow">Made for Peterborough, Ontario</div>
         <h1>The Story Behind <em>Lock21</em> </h1>
-        <p class="lead">Lock21 is more than a name it represents 
-           Peterborough's identity, history, and spirit of progress </p>
-        <p class="lead">Inspired by the iconic Peterborough Lift Lock, Canada's highest hydraulic lift lock, Lock21 symbolizes connection, movement, and community.
-          For over a century, the Lift Lock has brought people together, helping them move forward while standing as a reminder of what innovation and determination can achieve.</p>
-        <p class="lead"> Built on that same philosophy, Lock21 is a premium local rewards and loyalty platform created to strengthen the relationship between Peterborough's residents 
-            and its local businesses. Every purchase, visit, and reward helps create stronger customer loyalty, encourages repeat business, and supports the growth of the local economy.</p>
-        <p class="lead"> Just as the Lift Lock raises boats to new heights, Lock21 is designed to elevate local businesses by increasing customer retention, improving customer engagement, and rewarding 
-          shoppers for choosing local. It transforms everyday purchases into meaningful connections between businesses and the community they serve</p>
+        <p class="lead">Lock21 is more than a name it represents
+          Peterborough's identity, history, and spirit of progress </p>
+        <p class="lead">Inspired by the iconic Peterborough Lift Lock, Canada's highest hydraulic lift lock, Lock21
+          symbolizes connection, movement, and community.
+          For over a century, the Lift Lock has brought people together, helping them move forward while standing as a
+          reminder of what innovation and determination can achieve.</p>
+        <p class="lead"> Built on that same philosophy, Lock21 is a premium local rewards and loyalty platform created
+          to strengthen the relationship between Peterborough's residents
+          and its local businesses. Every purchase, visit, and reward helps create stronger customer loyalty, encourages
+          repeat business, and supports the growth of the local economy.</p>
+        <p class="lead"> Just as the Lift Lock raises boats to new heights, Lock21 is designed to elevate local
+          businesses by increasing customer retention, improving customer engagement, and rewarding
+          shoppers for choosing local. It transforms everyday purchases into meaningful connections between businesses
+          and the community they serve</p>
 
         <div class="hero-stats">
           <div><b>110+</b><span>local businesses </span></div>
@@ -164,61 +170,79 @@
   <!-- =========================================================
      SECTION 3: "HOW IT WORKS" — 3 STEPS
      ========================================================= -->
-  <section class="lock21">
-
-    <p class="eyebrow">HOW IT WORKS</p>
-
-    <h2>Three purchases.<br>One reward.</h2>
+  <section id="how">
+    <div class="wrap">
+      <div class="section-head">
+        <div class="eyebrow">How it works</div>
+                  <h2> Every three purchases.<br>One reward.</h2>
 
     <p class="subtitle">
-        Every purchase earns <strong>7 points.</strong><br>
-        Reach <strong>21 points</strong> and unlock your reward.
+        Every eligible purchase fills one section of your Lock21 circle.
+        Complete all three sections and unlock your reward.
     </p>
 
-    <div class="lock-wrapper">
+    <div class="progress-wrapper">
 
-        <div class="shackle"></div>
+        <div class="progress-circle">
+            <svg viewBox="0 0 120 120">
 
-        <div class="lock-body">
+                <!-- Background -->
+                <circle
+                    cx="60"
+                    cy="60"
+                    r="48"
+                    class="bg-circle"/>
 
-            <div class="bars">
+                <!-- Segment 1 -->
+                <path id="seg1" class="segment"
+                    d="M60 60 L60 12
+                    A48 48 0 0 1 101 84 Z"/>
 
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+                <!-- Segment 2 -->
+                <path id="seg2" class="segment"
+                    d="M60 60 L101 84
+                    A48 48 0 0 1 19 84 Z"/>
+
+                <!-- Segment 3 -->
+                <path id="seg3" class="segment"
+                    d="M60 60 L19 84
+                    A48 48 0 0 1 60 12 Z"/>
 
             </div>
 
-            <div class="points">
-
-                <span id="counter">0</span>
-
-                <small>/21 pts</small>
-
+            <div class="center-text">
+                <span>FREE</span>
+                <small>Reward</small>
             </div>
+
+          </div>
 
         </div>
 
-    </div>
+    <div class="steps">
 
-    <div class="status">
+        <div>
+            <h3>1</h3>
+            <p>Purchase at a participating business.</p>
+        </div>
 
-        Purchase #1
+        <div>
+            <h3>2</h3>
+            <p>Collect three qualifying purchases.</p>
+        </div>
 
-    </div>
+        <div>
+            <h3>3</h3>
+            <p>Redeem your free reward.</p>
+        </div>
 
-    <div class="reward">
-
-        REWARD UNLOCKED
-
-    </div>
+        </div>
 
     <p class="terms">
-        *Every purchase earns 7 points. Reward unlocks at 21 points. Terms & Conditions apply.
+        *Terms & Conditions apply.
     </p>
 
 </section>
-
   <!-- =========================================================
      SECTION 4: LOCAL BUSINESS GRID
      ========================================================= -->
@@ -273,7 +297,7 @@
       </div>
     </div>
   </section>
- 
+
   <!-- =========================================================
      SECTION 6: CUSTOMER REWARDS SIGN-UP CALL-TO-ACTION BAND
      (Mirrors the business-owner CTA band in structure & styling)
@@ -376,7 +400,7 @@
     </div>
   </footer>
   <!-- ================= JAVASCRIPT (separate file) ================= -->
-  <script src="./assets/js/lock.js"></script>
+  <script src="./src/lock.js"></script>
 </body>
 
 </html>

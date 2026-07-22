@@ -16,3 +16,5 @@ Taglines
 Reward system
 What lock21
 Different tier
+
+New user pwd: Lock21-new
