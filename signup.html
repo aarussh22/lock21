@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up for Rewards — Lock21</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./src/css/lock.css">
+</head>
+
+<body>
+  <!-- =========================================================
+     SECTION 1: NAVIGATION BAR (same as index.html)
+     ========================================================= -->
+  <nav class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html">
+        <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+          <rect x="4" y="6" width="22" height="18" rx="2" fill="#0E74B8" />
+          <rect x="9" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="18" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="7" y="14" width="16" height="7" rx="1" fill="#5FA9D8" />
+        </svg>
+        Lock21
+      </a>
+      <div class="nav-links">
+        <a href="index.html#how">How it works</a>
+        <a href="index.html#businesses">Local businesses</a>
+        <a href="index.html#tiers">Rewards tiers</a>
+        <a href="business-signup.html">For business owners</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+     SECTION 2: CUSTOMER SIGN-UP FORM
+     Fields: full name, city, phone number (required), email (optional).
+     Handled by src/forms.js — see that file for what happens on submit.
+     ========================================================= -->
+  <section>
+    <div class="wrap" style="max-width:720px;">
+      <a class="back-link" href="index.html">&larr; Back to Lock21</a>
+
+      <div class="form-hero">
+        <div class="eyebrow">For Peterborough shoppers</div>
+        <h1 style="font-size:clamp(1.9rem,4vw,2.6rem);">Sign up for Lock21 rewards</h1>
+        <p>Takes under a minute. Every purchase at a participating business earns you 7 points — 21 points unlocks a
+          free reward.</p>
+      </div>
+
+      <div class="form-card" id="customerFormCard">
+        <form id="customerSignupForm" novalidate>
+          <div class="field">
+            <label for="custName">Full name</label>
+            <input type="text" id="custName" name="custName" placeholder="Jordan Smith" required autocomplete="name">
+          </div>
+
+          <div class="field">
+            <label for="custCity">City / neighbourhood</label>
+            <select id="custCity" name="custCity" required>
+              <option value="" disabled selected>Select where you live</option>
+              <option>Downtown Peterborough</option>
+              <option>East City</option>
+              <option>Ashburnham</option>
+              <option>Old West End</option>
+              <option>Northcrest</option>
+              <option>Outside Peterborough</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="custPhone">Phone number</label>
+            <input type="tel" id="custPhone" name="custPhone" placeholder="(705) 555-0123" required
+              autocomplete="tel">
+            <small class="hint">Used to look up your card at checkout — no texts or calls unless you ask for
+              them.</small>
+          </div>
+
+          <div class="field">
+            <label for="custEmail">Email <span class="optional-tag">(optional)</span></label>
+            <input type="email" id="custEmail" name="custEmail" placeholder="you@example.com" autocomplete="email">
+            <small class="hint">Only used to send your points balance and reward alerts, if you'd like them.</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Join Lock21 — it's free</button>
+          </div>
+        </form>
+
+        <div class="form-success" id="customerSuccess">
+          <div class="success-icon">✓</div>
+          <h3>You're in!</h3>
+          <p>Show your name and phone number at any participating Lock21 business to start earning points on your
+            next purchase.</p>
+        </div>
+      </div>
+
+      <p class="form-note">
+        Own a business instead? <a href="business-signup.html">List it on Lock21 here</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+     SECTION 3: FOOTER (same as index.html)
+     ========================================================= -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-bottom">
+        <span>Peterborough, Ontario</span>
+        <span>© Lock21</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./src/forms.js"></script>
+</body>
+
+</html>

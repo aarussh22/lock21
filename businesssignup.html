@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>List Your Business — Lock21</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="./src/css/lock.css">
+</head>
+
+<body>
+  <!-- =========================================================
+     SECTION 1: NAVIGATION BAR (same as index.html)
+     ========================================================= -->
+  <nav class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html">
+        <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+          <rect x="4" y="6" width="22" height="18" rx="2" fill="#0E74B8" />
+          <rect x="9" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="18" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="7" y="14" width="16" height="7" rx="1" fill="#5FA9D8" />
+        </svg>
+        Lock21
+      </a>
+      <div class="nav-links">
+        <a href="index.html#how">How it works</a>
+        <a href="index.html#businesses">Local businesses</a>
+        <a href="index.html#tiers">Rewards tiers</a>
+        <a href="signup.html">For customers</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+     SECTION 2: BUSINESS SIGN-UP FORM
+     Fields: business name, phone number, email, business details.
+     Handled by src/forms.js — see that file for what happens on submit.
+     ========================================================= -->
+  <section>
+    <div class="wrap" style="max-width:720px;">
+      <a class="back-link" href="index.html">&larr; Back to Lock21</a>
+
+      <div class="form-hero">
+        <div class="eyebrow">For Peterborough business owners</div>
+        <h1 style="font-size:clamp(1.9rem,4vw,2.6rem);">List your business on Lock21</h1>
+        <p>No punch cards to print, no app to maintain, no per-transaction fees for your first 90 days. Tell us a bit
+          about your business and we'll follow up to set up your countertop QR code.</p>
+      </div>
+
+      <div class="form-card" id="businessFormCard">
+        <form id="businessSignupForm" novalidate>
+          <div class="field">
+            <label for="bizName">Business name</label>
+            <input type="text" id="bizName" name="bizName" placeholder="Jackson Creek Coffee" required
+              autocomplete="organization">
+          </div>
+
+          <div class="field">
+            <label for="bizCategory">Business type</label>
+            <select id="bizCategory" name="bizCategory" required>
+              <option value="" disabled selected>Select the closest match</option>
+              <option>Café / Coffee shop</option>
+              <option>Restaurant</option>
+              <option>Bar / Brewery</option>
+              <option>Retail / Shop</option>
+              <option>Salon / Barber / Spa</option>
+              <option>Fitness / Studio</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="bizPhone">Contact phone number</label>
+            <input type="tel" id="bizPhone" name="bizPhone" placeholder="(705) 555-0199" required
+              autocomplete="tel">
+          </div>
+
+          <div class="field">
+            <label for="bizEmail">Contact email</label>
+            <input type="email" id="bizEmail" name="bizEmail" placeholder="owner@yourbusiness.com" required
+              autocomplete="email">
+            <small class="hint">This is where we'll send onboarding details and your QR code setup.</small>
+          </div>
+
+          <div class="field">
+            <label for="bizDetails">Business details</label>
+            <textarea id="bizDetails" name="bizDetails"
+              placeholder="Tell us about your business — location/neighbourhood, hours, what you'd like to offer as a reward, and anything else that's useful to know."
+              required></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">List my business — it's free</button>
+          </div>
+        </form>
+
+        <div class="form-success" id="businessSuccess">
+          <div class="success-icon">✓</div>
+          <h3>Thanks — you're on the list!</h3>
+          <p>We'll reach out within a few business days to finish setting up your countertop QR code and reward
+            menu.</p>
+        </div>
+      </div>
+
+      <p class="form-note">
+        Here to earn rewards instead? <a href="signup.html">Sign up as a customer</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- =========================================================
+     SECTION 3: FOOTER (same as index.html)
+     ========================================================= -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-bottom">
+        <span>Peterborough, Ontario</span>
+        <span>© Lock21</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./src/forms.js"></script>
+</body>
+
+</html>

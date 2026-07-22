@@ -22,10 +22,10 @@
     <div class="wrap">
       <div class="logo">
         <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
-          <rect x="4" y="6" width="22" height="18" rx="2" fill="#0f3b36" />
-          <rect x="9" y="2" width="3" height="26" fill="#c1442a" />
-          <rect x="18" y="2" width="3" height="26" fill="#c1442a" />
-          <rect x="7" y="14" width="16" height="7" rx="1" fill="#e4a527" />
+          <rect x="4" y="6" width="22" height="18" rx="2" fill="#0E74B8" />
+          <rect x="9" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="18" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="7" y="14" width="16" height="7" rx="1" fill="#5FA9D8" />
         </svg>
         Lock21
       </div>
@@ -38,69 +38,65 @@
       </div>
     </div>
   </nav>
+
   <!-- =========================================================
      SECTION 2: HERO
-     Left: headline + CTAs + stats. Right: animated lift-lock SVG.
-     (Animation logic lives in script.js, not inline here.)
+     Left: the "story behind Lock21" copy. Right: animated
+     lift-lock SVG card. Animation logic: src/lock.js, PART A.
      ========================================================= -->
   <section class="hero">
     <div class="wrap">
       <!-- 2a. Hero copy -->
       <div>
         <div class="eyebrow">Made for Peterborough, Ontario</div>
-        <h1>The Story Behind <em>Lock21</em> </h1>
-        <p class="lead">Lock21 is more than a name it represents
-          Peterborough's identity, history, and spirit of progress </p>
+        <h1>The Story Behind <em>Lock21</em></h1>
+        <p class="lead">Lock21 is more than a name — it represents Peterborough's identity, history, and spirit of
+          progress.</p>
         <p class="lead">Inspired by the iconic Peterborough Lift Lock, Canada's highest hydraulic lift lock, Lock21
-          symbolizes connection, movement, and community.
-          For over a century, the Lift Lock has brought people together, helping them move forward while standing as a
-          reminder of what innovation and determination can achieve.</p>
-        <p class="lead"> Built on that same philosophy, Lock21 is a premium local rewards and loyalty platform created
-          to strengthen the relationship between Peterborough's residents
-          and its local businesses. Every purchase, visit, and reward helps create stronger customer loyalty, encourages
-          repeat business, and supports the growth of the local economy.</p>
-        <p class="lead"> Just as the Lift Lock raises boats to new heights, Lock21 is designed to elevate local
-          businesses by increasing customer retention, improving customer engagement, and rewarding
-          shoppers for choosing local. It transforms everyday purchases into meaningful connections between businesses
-          and the community they serve</p>
+          symbolizes connection, movement, and community. For over a century, the Lift Lock has brought people
+          together, helping them move forward while standing as a reminder of what innovation and determination can
+          achieve.</p>
+        <p class="lead">Built on that same philosophy, Lock21 is a premium local rewards and loyalty platform created
+          to strengthen the relationship between Peterborough's residents and its local businesses. Every purchase,
+          visit, and reward helps create stronger customer loyalty, encourages repeat business, and supports the
+          growth of the local economy.</p>
+        <p class="lead">Just as the Lift Lock raises boats to new heights, Lock21 is designed to elevate local
+          businesses by increasing customer retention, improving customer engagement, and rewarding shoppers for
+          choosing local. It transforms everyday purchases into meaningful connections between businesses and the
+          community they serve.</p>
 
         <div class="hero-stats">
-          <div><b>110+</b><span>local businesses </span></div>
+          <div><b>110+</b><span>local businesses</span></div>
           <div><b>$0</b><span>no cost to earn rewards</span></div>
           <div><b>1</b><span>card for the whole city</span></div>
         </div>
       </div>
-      <!-- 2b. Animated lift-lock SVG card -->
-     <!-- 2b. Animated 3-step lift-lock SVG card -->
+
+      <!-- 2b. Animated 3-step lift-lock SVG card -->
       <div class="lock-stage">
         <div class="lock-caption">
           <span>Live chamber — Peterborough Lift Lock</span>
           <span class="points-counter">Points <span class="mono" id="pointsVal">0</span><span class="mono"
               style="opacity:0.7;"> / 21</span></span>
         </div>
- 
+
         <svg id="liftlockSvg" viewBox="0 0 360 420" width="100%">
           <!-- background sky -->
           <rect x="0" y="0" width="360" height="420" rx="16" fill="#eaf3fa" />
- 
+
           <!-- distant guide towers -->
           <rect x="60" y="30" width="18" height="330" fill="#d3e3ee" />
           <rect x="282" y="30" width="18" height="330" fill="#d3e3ee" />
           <!-- near guide towers -->
           <rect x="96" y="20" width="20" height="360" fill="#b9d2e3" />
           <rect x="244" y="20" width="20" height="360" fill="#b9d2e3" />
- 
+
           <!-- top canal water level -->
           <rect x="60" y="16" width="240" height="10" fill="#6fa8cc" />
           <!-- lower canal water level -->
           <rect x="0" y="382" width="360" height="38" fill="#4a8bb5" />
- 
-          <!-- ===================================================
-               PURCHASE-STOP RUNGS
-               Three horizontal markers on the guide towers showing
-               where the chamber stops after each purchase. Each
-               glows (via lock.js) once the chamber reaches it.
-               =================================================== -->
+
+          <!-- purchase-stop rungs: glow once the chamber reaches each -->
           <g id="rung3" opacity="0.35">
             <rect x="96" y="16" width="20" height="6" rx="2" fill="#2f8fd1" />
             <rect x="244" y="16" width="20" height="6" rx="2" fill="#2f8fd1" />
@@ -113,43 +109,45 @@
             <rect x="96" y="240" width="20" height="6" rx="2" fill="#2f8fd1" />
             <rect x="244" y="240" width="20" height="6" rx="2" fill="#2f8fd1" />
           </g>
- 
-          <!-- rising chamber (trough) — position animated by lock.js via transform -->
+
+          <!-- rising chamber (trough) — position animated by lock.js -->
           <g id="chamber">
             <rect x="120" y="0" width="120" height="44" rx="4" fill="#0b3d63" />
             <rect x="126" y="6" width="108" height="26" rx="2" fill="#2f6f96" />
           </g>
- 
-          <!-- boat — animated independently of the chamber (slides in/out + rides the rise) -->
+
+          <!-- boat — animated independently of the chamber -->
           <g id="boat">
             <path d="M0 14 L50 14 L42 24 L8 24 Z" fill="#0b3d63" />
             <rect x="18" y="2" width="14" height="12" rx="2" fill="#2f8fd1" />
           </g>
- 
-          <!-- gate-light indicators: glow briefly as the boat transits each end -->
+
+          <!-- gate-light indicators -->
           <circle id="gateLightBottom" cx="180" cy="397" r="5" fill="#2f8fd1" opacity="0.15" />
           <circle id="gateLightTop" cx="180" cy="7" r="5" fill="#2f8fd1" opacity="0.15" />
- 
-          <!-- ===================================================
-               FLOATING "+7" POPUPS
-               Shown briefly at the end of purchase 1 and purchase 2.
-               Opacity + vertical offset animated by lock.js.
-               =================================================== -->
-          <text id="popup1" x="180" y="240" text-anchor="middle" font-family="'JetBrains Mono', monospace"
-            font-weight="700" font-size="20" fill="#1565a8" opacity="0">+7</text>
-          <text id="popup2" x="180" y="128" text-anchor="middle" font-family="'JetBrains Mono', monospace"
-            font-weight="700" font-size="20" fill="#1565a8" opacity="0">+7</text>
- 
-          <!-- ===================================================
-               "REWARD UNLOCKED" BADGE
-               Shown once the chamber completes its 3rd stop (21 pts).
-               =================================================== -->
+
+          <!-- floating "+7" popups — white pill background so the text
+               reads clearly regardless of what's behind it -->
+          <g id="popup1" opacity="0">
+            <rect x="152" y="222" width="56" height="30" rx="15" fill="#ffffff" stroke="#0E74B8"
+              stroke-width="1.5" />
+            <text x="180" y="242" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700"
+              font-size="18" fill="#0E74B8">+7</text>
+          </g>
+          <g id="popup2" opacity="0">
+            <rect x="152" y="110" width="56" height="30" rx="15" fill="#ffffff" stroke="#0E74B8"
+              stroke-width="1.5" />
+            <text x="180" y="130" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700"
+              font-size="18" fill="#0E74B8">+7</text>
+          </g>
+
+          <!-- "reward unlocked" badge -->
           <g id="rewardBadge" opacity="0">
             <rect x="80" y="60" width="200" height="40" rx="20" fill="#0b3d63" />
             <text x="180" y="86" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-weight="700"
               font-size="14" fill="#ffffff">REWARD UNLOCKED · 21 PTS</text>
           </g>
- 
+
           <!-- brick base -->
           <rect x="0" y="392" width="360" height="28" fill="#0d4f86" />
           <!-- distant town skyline silhouette -->
@@ -158,7 +156,7 @@
           <rect x="316" y="368" width="16" height="22" fill="#0b3d63" opacity="0.25" />
           <rect x="336" y="358" width="14" height="32" fill="#0b3d63" opacity="0.18" />
         </svg>
- 
+
         <p style="font-size:0.78rem;color:var(--ink-soft);margin:12px 4px 2px;line-height:1.5;">
           Inspired by the Peterborough Lift Lock — the tallest hydraulic lift lock on Earth. Each of the three stops
           above marks one purchase: 7 points, 7 points, 7 points — 21 to redeem.
@@ -166,83 +164,57 @@
       </div>
     </div>
   </section>
- 
+
   <!-- =========================================================
-     SECTION 3: "HOW IT WORKS" — 3 STEPS
+     SECTION 3: "HOW IT WORKS" — PADLOCK ANIMATION
+     Animation logic: src/lock.js, PART B. Styling: lock.css §7.
+     The padlock lights up one bar per purchase; on the 3rd purchase
+     the shackle springs open and "Reward Unlocked" is revealed.
      ========================================================= -->
   <section id="how">
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow">How it works</div>
-                  <h2> Every three purchases.<br>One reward.</h2>
+        <h2>Every three purchases.<br>One reward.</h2>
+        <p class="subtitle">
+          Every eligible purchase fills one bar on your Lock21 padlock. Complete all three and it springs open —
+          your reward is ready to redeem.
+        </p>
+      </div>
 
-    <p class="subtitle">
-        Every eligible purchase fills one section of your Lock21 circle.
-        Complete all three sections and unlock your reward.
-    </p>
-
-    <div class="progress-wrapper">
-
-        <div class="progress-circle">
-            <svg viewBox="0 0 120 120">
-
-                <!-- Background -->
-                <circle
-                    cx="60"
-                    cy="60"
-                    r="48"
-                    class="bg-circle"/>
-
-                <!-- Segment 1 -->
-                <path id="seg1" class="segment"
-                    d="M60 60 L60 12
-                    A48 48 0 0 1 101 84 Z"/>
-
-                <!-- Segment 2 -->
-                <path id="seg2" class="segment"
-                    d="M60 60 L101 84
-                    A48 48 0 0 1 19 84 Z"/>
-
-                <!-- Segment 3 -->
-                <path id="seg3" class="segment"
-                    d="M60 60 L19 84
-                    A48 48 0 0 1 60 12 Z"/>
-
-            </div>
-
-            <div class="center-text">
-                <span>FREE</span>
-                <small>Reward</small>
-            </div>
-
+      <div class="lock-wrapper" id="howLockWrapper">
+        <div class="shackle"></div>
+        <div class="lock-body">
+          <div class="bars">
+            <div class="bar" id="howBar1"></div>
+            <div class="bar" id="howBar2"></div>
+            <div class="bar" id="howBar3"></div>
           </div>
-
+          <div class="points"><span id="howPoints">0</span><small> / 21</small></div>
+          <div class="status" id="howStatus">Ready for your next visit</div>
+          <div class="reward" id="howReward">🎉 Reward Unlocked!</div>
         </div>
+      </div>
 
-    <div class="steps">
-
+      <div class="steps">
         <div>
-            <h3>1</h3>
-            <p>Purchase at a participating business.</p>
+          <h3>1</h3>
+          <p>Purchase at a participating business.</p>
         </div>
-
         <div>
-            <h3>2</h3>
-            <p>Collect three qualifying purchases.</p>
+          <h3>2</h3>
+          <p>Collect three qualifying purchases.</p>
         </div>
-
         <div>
-            <h3>3</h3>
-            <p>Redeem your free reward.</p>
+          <h3>3</h3>
+          <p>Redeem your free reward.</p>
         </div>
+      </div>
 
-        </div>
+      <p class="terms">*Terms &amp; conditions apply.</p>
+    </div>
+  </section>
 
-    <p class="terms">
-        *Terms & Conditions apply.
-    </p>
-
-</section>
   <!-- =========================================================
      SECTION 4: LOCAL BUSINESS GRID
      ========================================================= -->
@@ -298,9 +270,10 @@
     </div>
   </section>
 
+ 
   <!-- =========================================================
      SECTION 6: CUSTOMER REWARDS SIGN-UP CALL-TO-ACTION BAND
-     (Mirrors the business-owner CTA band in structure & styling)
+     (stray blank <input> from the pasted version removed)
      ========================================================= -->
   <section id="customers" style="background:var(--paper);">
     <div class="wrap">
@@ -309,8 +282,7 @@
           <div>
             <div class="eyebrow" style="color:var(--gold-soft);">For Peterborough shoppers</div>
             <h2>Start earning rewards at every shop you already visit</h2>
-            <p>Sign up for Lock21 in under a minute and get your card ready to scan <input type="button" value=""> at
-              any participating business —
+            <p>Sign up for Lock21 in under a minute and get your card ready to scan at any participating business —
               no fees, no app to install, and no separate loyalty card cluttering your wallet.</p>
             <ul class="owner-list">
               <li>Earn points automatically every time you scan in</li>
@@ -319,15 +291,16 @@
             </ul>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="#" class="btn btn-primary" style="justify-content:center;">Sign up for rewards</a>
-            <a href="#how" class="btn"
-              style="justify-content:center;border:1.5px solid rgba(239,231,216,0.4);color:var(--paper-light);">See
+            <a href="signup.html" class="btn btn-primary" style="justify-content:center;">Sign up for rewards</a>
+            <a href="#" class="btn"
+              style="justify-content:center;border:1.5px solid rgba(255,255,255,0.4);color:var(--paper-light);">See
               how it works</a>
           </div>
         </div>
       </div>
     </div>
   </section>
+
   <!-- =========================================================
      SECTION 7: BUSINESS-OWNER CALL-TO-ACTION BAND
      ========================================================= -->
@@ -347,15 +320,16 @@
             </ul>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="#" class="btn btn-primary" style="justify-content:center;">List my business</a>
+            <a href="businesssignup.html" class="btn btn-primary" style="justify-content:center;">List my business</a>
             <a href="#" class="btn"
-              style="justify-content:center;border:1.5px solid rgba(239,231,216,0.4);color:var(--paper-light);">Talk to
-              our team</a>
+              style="justify-content:center;border:1.5px solid rgba(255,255,255,0.4);color:var(--paper-light);">Talk
+              to our team</a>
           </div>
         </div>
       </div>
     </div>
   </section>
+
   <!-- =========================================================
      SECTION 8: FOOTER
      ========================================================= -->
@@ -365,10 +339,10 @@
         <div>
           <div class="logo" style="margin-bottom:12px;">
             <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
-              <rect x="4" y="6" width="22" height="18" rx="2" fill="#0f3b36" />
-              <rect x="9" y="2" width="3" height="26" fill="#c1442a" />
-              <rect x="18" y="2" width="3" height="26" fill="#c1442a" />
-              <rect x="7" y="14" width="16" height="7" rx="1" fill="#e4a527" />
+              <rect x="4" y="6" width="22" height="18" rx="2" fill="#0E74B8" />
+              <rect x="9" y="2" width="3" height="26" fill="#2C86C5" />
+              <rect x="18" y="2" width="3" height="26" fill="#2C86C5" />
+              <rect x="7" y="14" width="16" height="7" rx="1" fill="#5FA9D8" />
             </svg>
             Lock21
           </div>
@@ -383,7 +357,7 @@
           </div>
           <div class="foot-col">
             <h5>Business</h5>
-            <a href="#owners">List your shop at no price</a>
+            <a href="#owners">List your shop for free</a>
             <a href="#businesses">Find a business</a>
           </div>
           <div class="foot-col">
@@ -399,7 +373,7 @@
       </div>
     </div>
   </footer>
-  <!-- ================= JAVASCRIPT (separate file) ================= -->
+  <!-- ================= sJAVASCRIPT (separate file) ================= -->
   <script src="./src/lock.js"></script>
 </body>
 
