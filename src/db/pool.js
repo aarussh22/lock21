@@ -7,6 +7,7 @@ const { Pool } = pg;
 // imports this rather than opening its own connections.
 export const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
   max: 10,
   idleTimeoutMillis: 30_000,
 });
