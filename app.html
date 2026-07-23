@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lock21 App — Front-End Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <!-- Reuses Lock21's design tokens, buttons, and form-field styles -->
+  <link rel="stylesheet" href="./src/css/lock.css">
+  <link rel="stylesheet" href="./app.css">
+  <!-- Client-side QR code generator (renders the personal QR entirely in
+       the browser — see src/app.js for how the code's content is built) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+  <!-- =========================================================
+     SECTION 1: NAVIGATION BAR (same as index.html)
+     ========================================================= -->
+  <nav class="nav">
+    <div class="wrap">
+      <a class="logo" href="index.html">
+        <svg class="logo-mark" viewBox="0 0 30 30" fill="none">
+          <rect x="4" y="6" width="22" height="18" rx="2" fill="#0E74B8" />
+          <rect x="9" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="18" y="2" width="3" height="26" fill="#2C86C5" />
+          <rect x="7" y="14" width="16" height="7" rx="1" fill="#5FA9D8" />
+        </svg>
+        Lock21
+      </a>
+      <div class="nav-links">
+        <a href="index.html#how">How it works</a>
+        <a href="index.html#businesses">Local businesses</a>
+        <a href="index.html#tiers">Rewards tiers</a>
+        <a href="signup.html">For customers</a>
+        <a href="business-signup.html">For business owners</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =========================================================
+     SECTION 2: APP DEMO
+     A clickable, front-end-only prototype of the Lock21 mobile app.
+     All logic lives in src/app.js — see the comments at the top of
+     that file for exactly what's real vs. simulated at this stage.
+     ========================================================= -->
+  <div class="app-demo-page">
+    <div class="app-demo-intro">
+      <div class="eyebrow">Front-end prototype</div>
+      <h1 style="font-size:clamp(1.8rem,4vw,2.4rem);">The Lock21 app, in your browser</h1>
+      <p>Click through the phone below exactly as a customer would — sign in with a phone number, verify a code,
+        check your points, and pull up your QR code at checkout.</p>
+    </div>
+
+    <!-- =========================================================
+       THE PHONE
+       ========================================================= -->
+    <div class="phone-shell">
+      <div class="phone-screen-area">
+
+        <!-- Mock status bar -->
+        <div class="status-bar">
+          <span>9:41</span>
+          <span>Lock21</span>
+          <span>100%</span>
+        </div>
+
+        <!-- ============================================
+             SCREEN: LOGIN (phone number entry)
+             ============================================ -->
+        <div class="app-screen auth-screen" id="screenLogin">
+          <div class="auth-logo">
+            <svg viewBox="0 0 30 30" fill="none">
+              <rect x="4" y="6" width="22" height="18" rx="2" fill="#ffffff" />
+              <rect x="9" y="2" width="3" height="26" fill="#bfe0f5" />
+              <rect x="18" y="2" width="3" height="26" fill="#bfe0f5" />
+              <rect x="7" y="14" width="16" height="7" rx="1" fill="#0E74B8" />
+            </svg>
+          </div>
+          <h1 class="screen-title">Welcome to Lock21</h1>
+          <p class="screen-subtitle">Enter your phone number — we'll text you a one-time code to sign in or create
+            your account.</p>
+
+          <form id="phoneForm" novalidate>
+            <div class="field">
+              <label for="phoneInput">Phone number</label>
+              <input type="tel" id="phoneInput" name="phone" placeholder="(705) 555-0123" required
+                autocomplete="tel">
+            </div>
+            <button type="submit" class="btn btn-primary">Send me a code</button>
+          </form>
+        </div>
+
+        <!-- ============================================
+             SCREEN: OTP VERIFICATION
+             ============================================ -->
+        <div class="app-screen auth-screen" id="screenOtp" hidden>
+          <h1 class="screen-title">Enter your code</h1>
+          <p class="screen-subtitle">We sent a 6-digit code by text message.</p>
+
+          <div class="demo-code-banner" id="demoCodeBanner">
+            Demo mode — no real SMS is sent. Enter code <b>123456</b> to continue.
+          </div>
+
+          <form id="otpForm" novalidate>
+            <div class="otp-row">
+              <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+              <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+              <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+              <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+              <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+              <input class="otp-box" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+            </div>
+            <div class="otp-error-msg" id="otpErrorMsg"></div>
+            <button type="submit" class="btn btn-primary">Verify</button>
+          </form>
+          <button type="button" class="resend-link" id="resendCodeBtn">Resend code</button>
+        </div>
+
+        <!-- ============================================
+             SCREEN: FIRST-TIME PROFILE (name + city)
+             Only shown once, right after the first successful
+             verification — mirrors the customer sign-up fields
+             used on signup.html.
+             ============================================ -->
+        <div class="app-screen auth-screen" id="screenProfile" hidden>
+          <h1 class="screen-title">Almost there</h1>
+          <p class="screen-subtitle">A couple of quick details and your account is ready.</p>
+
+          <form id="profileForm" novalidate>
+            <div class="field">
+              <label for="profileNameInput">Full name</label>
+              <input type="text" id="profileNameInput" placeholder="Jordan Smith" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="profileCityInput">City / neighbourhood</label>
+              <select id="profileCityInput" required>
+                <option value="" disabled selected>Select where you live</option>
+                <option>Downtown Peterborough</option>
+                <option>East City</option>
+                <option>Ashburnham</option>
+                <option>Old West End</option>
+                <option>Northcrest</option>
+                <option>Outside Peterborough</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create my account</button>
+          </form>
+        </div>
+
+        <!-- ============================================
+             SCREEN: HOME
+             Points per business + promos/nearby.
+             ============================================ -->
+        <div class="app-screen" id="screenHome" hidden>
+          <div class="home-greeting" id="homeGreeting">Hi there</div>
+          <div class="home-total-points">
+            <b id="homeTotalPoints">0</b>
+            <span>total points across all businesses</span>
+          </div>
+
+          <div class="section-title">Your points by business</div>
+          <div id="bizPointsList"></div>
+
+          <div class="section-title">Promos &amp; local stores nearby</div>
+          <div id="promoList"></div>
+        </div>
+
+        <!-- ============================================
+             SCREEN: QR CODE
+             ============================================ -->
+        <div class="app-screen qr-screen" id="screenQr" hidden>
+          <h1 class="screen-title">Your Lock21 code</h1>
+          <p class="screen-subtitle">Show this at checkout — every participating business scans the same code.</p>
+
+          <div class="qr-card">
+            <div id="qrCodeContainer"></div>
+            <div class="qr-id" id="qrId">LK-000000</div>
+            <div class="qr-name" id="qrName">Lock21 member</div>
+          </div>
+        </div>
+
+        <!-- ============================================
+             SCREEN: TRANSACTION HISTORY
+             ============================================ -->
+        <div class="app-screen" id="screenHistory" hidden>
+          <h1 class="screen-title">Transaction history</h1>
+          <p class="screen-subtitle">Every purchase and reward, across every business.</p>
+          <div id="txnList"></div>
+        </div>
+
+        <!-- ============================================
+             SCREEN: ACCOUNT
+             ============================================ -->
+        <div class="app-screen" id="screenAccount" hidden>
+          <h1 class="screen-title">Account</h1>
+          <div class="account-row">
+            <span class="label">Name</span>
+            <span class="value" id="accountName">—</span>
+          </div>
+          <div class="account-row">
+            <span class="label">Phone</span>
+            <span class="value" id="accountPhone">—</span>
+          </div>
+          <div class="account-row">
+            <span class="label">City</span>
+            <span class="value" id="accountCity">—</span>
+          </div>
+          <div class="account-row">
+            <span class="label">Member ID</span>
+            <span class="value" id="accountId">—</span>
+          </div>
+          <button type="button" class="btn logout-btn" id="logoutBtn">Log out</button>
+        </div>
+
+        <!-- Bottom tab bar — hidden until login is complete -->
+        <div class="tab-bar" id="tabBar" hidden>
+          <button class="tab-btn active" data-target="screenHome">
+            <span class="tab-icon">🏠</span>Home
+          </button>
+          <button class="tab-btn" data-target="screenQr">
+            <span class="tab-icon">▦</span>QR Code
+          </button>
+          <button class="tab-btn" data-target="screenHistory">
+            <span class="tab-icon">🧾</span>History
+          </button>
+          <button class="tab-btn" data-target="screenAccount">
+            <span class="tab-icon">👤</span>Account
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="app-demo-note">
+      <b>What's real right now:</b> the phone/OTP flow, the QR code (generated in-browser from the phone number),
+      and all navigation. <b>What's simulated:</b> no SMS is actually sent, and points/promos/history are sample
+      data — both get wired up to a real backend later.
+    </p>
+  </div>
+
+  <!-- =========================================================
+     SECTION 3: FOOTER (same as index.html)
+     ========================================================= -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-bottom">
+        <span>Peterborough, Ontario</span>
+        <span>© Lock21</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+
+</html>
