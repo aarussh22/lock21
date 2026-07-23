@@ -186,13 +186,22 @@
         <div class="shackle"></div>
         <div class="lock-body">
           <div class="bars">
-            <div class="bar" id="howBar1"></div>
-            <div class="bar" id="howBar2"></div>
-            <div class="bar" id="howBar3"></div>
+            <div class="bar-row">
+              <div class="bar" id="howBar1"></div>
+              <span class="bar-icon" id="howIcon1">🛍️</span>
+            </div>
+            <div class="bar-row">
+              <div class="bar" id="howBar2"></div>
+              <span class="bar-icon" id="howIcon2">🛍️</span>
+            </div>
+            <div class="bar-row">
+              <div class="bar" id="howBar3"></div>
+              <span class="bar-icon" id="howIcon3">🎁</span>
+            </div>
           </div>
           <div class="points"><span id="howPoints">0</span><small> / 21</small></div>
-          <div class="status" id="howStatus">Ready for your next visit</div>
-          <div class="reward" id="howReward">🎉 Reward Unlocked!</div>
+          <div class="status" id="howStatus">Collect 3 purchases to unlock your reward</div>
+          <div class="reward" id="howReward">Reward Unlocked!</div>
         </div>
       </div>
 
@@ -271,6 +280,7 @@
   </section>
 
  
+
   <!-- =========================================================
      SECTION 6: CUSTOMER REWARDS SIGN-UP CALL-TO-ACTION BAND
      (stray blank <input> from the pasted version removed)
@@ -292,7 +302,7 @@
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
             <a href="signup.html" class="btn btn-primary" style="justify-content:center;">Sign up for rewards</a>
-            <a href="#" class="btn"
+            <a href="#how" class="btn"
               style="justify-content:center;border:1.5px solid rgba(255,255,255,0.4);color:var(--paper-light);">See
               how it works</a>
           </div>
@@ -320,7 +330,7 @@
             </ul>
           </div>
           <div style="display:flex;flex-direction:column;gap:12px;">
-            <a href="businesssignup.html" class="btn btn-primary" style="justify-content:center;">List my business</a>
+            <a href="business-signup.html" class="btn btn-primary" style="justify-content:center;">List my business</a>
             <a href="#" class="btn"
               style="justify-content:center;border:1.5px solid rgba(255,255,255,0.4);color:var(--paper-light);">Talk
               to our team</a>
@@ -373,7 +383,7 @@
       </div>
     </div>
   </footer>
-  <!-- ================= sJAVASCRIPT (separate file) ================= -->
+  <!-- ================= JAVASCRIPT (separate file) ================= -->
   <script src="./src/lock.js"></script>
 </body>
 

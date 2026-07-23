@@ -205,8 +205,8 @@ section{ padding:96px 0; }
 
 .lock-wrapper{
   position:relative;
-  width:260px;
-  margin:0 auto;
+  width:300px;
+  margin:0 auto 24px;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -223,26 +223,36 @@ section{ padding:96px 0; }
   transform-origin:bottom right;
 }
 
-/* ---------------- BODY ---------------- */
+/* ---------------- BODY ----------------
+   min-height (not a fixed height) so the box always grows to fit its
+   content — a fixed height here was the cause of the reward text
+   visually overlapping the section below it. */
 .lock-body{
-  width:260px;
-  height:270px;
+  width:300px;
+  min-height:270px;
   background:var(--paper-light);
   margin-top:-5px;
   border-radius:28px;
-  padding:40px;
+  padding:36px 32px;
   box-shadow:0 18px 45px rgba(14,116,184,0.10);
-  transition:box-shadow .6s ease, transform .5s ease;
+  transition:box-shadow .6s ease;
   position:relative;
 }
 
 .bars{
   display:flex;
   flex-direction:column;
-  gap:18px;
+  gap:20px;
+}
+
+.bar-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
 .bar{
+  flex:1;
   height:18px;
   border-radius:50px;
   background:#dbe8f2;
@@ -263,9 +273,38 @@ section{ padding:96px 0; }
 .bar.active::before{ width:100%; }
 .bar.active{ box-shadow:0 0 18px rgba(14,116,184,0.55); }
 
+/* Shopping-bag / gift-box icon beside each bar — hidden until that
+   purchase lands, then pops in with a small bounce */
+.bar-icon{
+  flex:none;
+  width:26px;
+  font-size:1.25rem;
+  line-height:1;
+  text-align:center;
+  opacity:0;
+  transform:scale(0.4) rotate(-15deg);
+}
+.bar-icon.pop{
+  animation:iconPop .5s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+.bar-icon.gift-open{
+  animation:giftOpen .6s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes iconPop{
+  0%   { opacity:0; transform:scale(0.4) rotate(-15deg); }
+  60%  { opacity:1; transform:scale(1.15) rotate(6deg); }
+  100% { opacity:1; transform:scale(1) rotate(0deg); }
+}
+@keyframes giftOpen{
+  0%   { opacity:1; transform:scale(1) rotate(0deg); }
+  35%  { transform:scale(1.4) rotate(-8deg); }
+  65%  { transform:scale(0.9) rotate(6deg); }
+  100% { opacity:1; transform:scale(1.2) rotate(0deg); }
+}
+
 /* ---------------- POINTS ---------------- */
 .points{
-  margin-top:45px;
+  margin-top:36px;
   font-family:'JetBrains Mono', monospace;
   font-size:2.4rem;
   font-weight:700;
@@ -277,38 +316,42 @@ section{ padding:96px 0; }
   color:var(--ink-soft);
 }
 
-/* ---------------- STATUS ---------------- */
+/* ---------------- STATUS ----------------
+   One calm, static line — no per-purchase counting language. It only
+   changes once, at the moment the reward unlocks. */
 .status{
-  margin-top:28px;
-  color:var(--river-deep);
-  font-size:1.15rem;
-  font-weight:600;
-  min-height:26px; /* avoids layout jump as the message length changes */
+  margin-top:22px;
+  color:var(--ink-soft);
+  font-size:0.95rem;
+  font-weight:500;
+  min-height:22px;
 }
 
 /* ---------------- REWARD ---------------- */
 .reward{
   opacity:0;
-  margin-top:16px;
-  font-size:1.5rem;
+  margin-top:14px;
+  font-family:'Fraunces', serif;
+  font-size:1.4rem;
   font-weight:700;
   color:var(--gold);
-  transform:translateY(16px) scale(0.9);
+  transform:translateY(12px);
   transition:opacity .5s ease, transform .5s ease;
 }
 .reward.show{
   opacity:1;
-  transform:translateY(0) scale(1);
+  transform:translateY(0);
 }
 
-/* ---------------- UNLOCKED STATE ---------------- */
+/* ---------------- UNLOCKED STATE ----------------
+   Glow only — no scale-up, which was pushing the visual box past its
+   own layout footprint and overlapping the section underneath. */
 .lock-wrapper.unlock .shackle{
   transform:rotate(-32deg) translate(-16px,-6px);
 }
 .lock-wrapper.unlock .lock-body{
-  transform:scale(1.03);
   box-shadow:
-    0 0 40px rgba(244,178,35,0.55),
+    0 0 40px rgba(244,178,35,0.45),
     0 20px 50px rgba(14,116,184,0.14);
 }
 
@@ -318,7 +361,7 @@ section{ padding:96px 0; }
   grid-template-columns:repeat(3,1fr);
   gap:24px;
   max-width:760px;
-  margin:56px auto 0;
+  margin:48px auto 0;
   text-align:center;
 }
 @media (max-width:700px){ .steps{ grid-template-columns:1fr; gap:32px; } }

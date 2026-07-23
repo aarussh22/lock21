@@ -217,6 +217,11 @@
     document.getElementById('howBar2'),
     document.getElementById('howBar3'),
   ];
+  const icons = [
+    document.getElementById('howIcon1'), // shopping bag
+    document.getElementById('howIcon2'), // shopping bag
+    document.getElementById('howIcon3'), // gift box -> "opens" into a party emoji
+  ];
   const pointsEl = document.getElementById('howPoints');
   const statusEl = document.getElementById('howStatus');
   const rewardEl = document.getElementById('howReward');
@@ -224,6 +229,7 @@
   // Bail out quietly if this page doesn't have the padlock at all.
   if (!lockWrapper || bars.some((b) => !b)) return;
 
+  const GIFT_ICON_INDEX = 2; // icons[2] is the gift box (3rd purchase)
   const POINTS_PER_PURCHASE = 7;
   const PURCHASES_TO_UNLOCK = 3;
   const TOTAL_POINTS = POINTS_PER_PURCHASE * PURCHASES_TO_UNLOCK; // 21
@@ -252,25 +258,39 @@
   /* --- B4. THE PURCHASE CYCLE --- */
   function resetState() {
     bars.forEach((bar) => bar.classList.remove('active'));
+    icons.forEach((icon, i) => {
+      if (!icon) return;
+      icon.classList.remove('pop', 'gift-open');
+      if (i === GIFT_ICON_INDEX) icon.textContent = '🎁'; // reset gift box before it "opens" again
+    });
     lockWrapper.classList.remove('unlock');
     if (rewardEl) rewardEl.classList.remove('show');
     if (pointsEl) pointsEl.textContent = '0';
-    if (statusEl) statusEl.textContent = 'Ready for your next visit';
+    if (statusEl) statusEl.textContent = 'Collect 3 purchases to unlock your reward';
   }
 
   async function registerPurchase(purchaseNumber) {
-    bars[purchaseNumber - 1].classList.add('active');
-    const fromPoints = (purchaseNumber - 1) * POINTS_PER_PURCHASE;
+    const index = purchaseNumber - 1;
+    bars[index].classList.add('active');
+
+    const icon = icons[index];
+    if (icon) icon.classList.add('pop'); // bag (or gift box) bounces in
+
+    const fromPoints = index * POINTS_PER_PURCHASE;
     const toPoints = purchaseNumber * POINTS_PER_PURCHASE;
-    if (statusEl) {
-      statusEl.textContent = 'Purchase ' + purchaseNumber + ' of ' + PURCHASES_TO_UNLOCK + ' — +' + POINTS_PER_PURCHASE + ' points';
-    }
     await animateCount(fromPoints, toPoints, 550);
+
+    // On the 3rd purchase, let the gift box "open" — swap it to a party
+    // emoji with a bigger pop, like a mystery box being unwrapped.
+    if (index === GIFT_ICON_INDEX && icon) {
+      await delay(300);
+      icon.textContent = '🎉';
+      icon.classList.add('gift-open');
+    }
   }
 
   async function unlockReward() {
-    if (statusEl) statusEl.textContent = 'Unlocking your reward…';
-    await delay(400);
+    await delay(300);
     lockWrapper.classList.add('unlock');
     if (rewardEl) rewardEl.classList.add('show');
     if (statusEl) statusEl.textContent = 'Reward ready to redeem!';
@@ -296,6 +316,11 @@
     runCycle();
   } else {
     bars.forEach((bar) => bar.classList.add('active'));
+    icons.forEach((icon, i) => {
+      if (!icon) return;
+      if (i === GIFT_ICON_INDEX) icon.textContent = '🎉';
+      icon.classList.add('pop');
+    });
     lockWrapper.classList.add('unlock');
     if (rewardEl) rewardEl.classList.add('show');
     if (pointsEl) pointsEl.textContent = String(TOTAL_POINTS);
