@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { query } from '../db/pool.js';
-import { signToken, requireBusinessDevice } from '../middleware/auth.js';
+import { signToken, requireBusinessDevice, requireBusinessOwner } from '../middleware/auth.js';
 
 export const businessRouter = Router();
 
@@ -41,16 +41,52 @@ businessRouter.post('/register', async (req, res) => {
 });
 
 /**
- * POST /api/business/devices
- * Owner provisions a new counter device/staff PIN. Requires the owner to be
- * authenticated in a real build (omitted here for brevity - add an
- * `requireBusinessOwner` middleware analogous to requireBusinessDevice
- * before this ships, gated on a separate owner JWT type).
+ * POST /api/business/login
+ * The business OWNER's login - distinct from /devices/login below, which is
+ * for counter staff. This is what a future owner dashboard would call.
+ * Returns an 'owner'-typed JWT, required by requireBusinessOwner below.
  */
-businessRouter.post('/devices', async (req, res) => {
-  const { businessId, deviceLabel, pin, role } = req.body;
-  if (!businessId || !deviceLabel || !pin) {
-    return res.status(400).json({ error: 'businessId, deviceLabel, and pin are required' });
+businessRouter.post('/login', async (req, res) => {
+  const { ownerEmail, password } = req.body;
+  if (!ownerEmail || !password) {
+    return res.status(400).json({ error: 'ownerEmail and password are required' });
+  }
+
+  const { rows } = await query(
+    'SELECT id, owner_password_hash FROM businesses WHERE owner_email = $1',
+    [ownerEmail.toLowerCase()]
+  );
+  const business = rows[0];
+
+  // Deliberately identical error for "no such email" and "wrong password" -
+  // distinguishing them lets an attacker enumerate registered business
+  // emails, which is worth avoiding even at MVP stage.
+  if (!business) {
+    return res.status(401).json({ error: 'Invalid email or password' });
+  }
+  const passwordMatches = await bcrypt.compare(password, business.owner_password_hash);
+  if (!passwordMatches) {
+    return res.status(401).json({ error: 'Invalid email or password' });
+  }
+
+  const token = signToken({ type: 'owner', businessId: business.id });
+  return res.json({ token });
+});
+
+/**
+ * POST /api/business/devices
+ * Owner provisions a new counter device/staff PIN. Auth: owner only.
+ * businessId comes from the authenticated owner's token, NOT the request
+ * body - same "trust the token, not client input" pattern used in
+ * loyalty.js's claim endpoint. This closes the gap where anyone who knew
+ * a businessId could previously create a staff login for that business.
+ */
+businessRouter.post('/devices', requireBusinessOwner, async (req, res) => {
+  const { deviceLabel, pin, role } = req.body;
+  const businessId = req.auth.businessId;
+
+  if (!deviceLabel || !pin) {
+    return res.status(400).json({ error: 'deviceLabel and pin are required' });
   }
   if (!/^\d{4,6}$/.test(pin)) {
     return res.status(400).json({ error: 'pin must be 4-6 digits' });
@@ -64,6 +100,49 @@ businessRouter.post('/devices', async (req, res) => {
     [businessId, deviceLabel, pinHash, role ?? null]
   );
   return res.status(201).json({ device: rows[0] });
+});
+
+/**
+ * GET /api/business/devices
+ * Owner-only. Lists every staff device for their business, so a future
+ * owner dashboard can show/manage them.
+ */
+businessRouter.get('/devices', requireBusinessOwner, async (req, res) => {
+  const { rows } = await query(
+    `SELECT id, device_label, role, is_active, created_at, last_used_at
+     FROM business_devices
+     WHERE business_id = $1
+     ORDER BY created_at DESC`,
+    [req.auth.businessId]
+  );
+  return res.json({ devices: rows });
+});
+
+/**
+ * PATCH /api/business/devices/:id
+ * Owner-only. Deactivates (or reactivates) a device - e.g. a lost tablet.
+ * Scoped to req.auth.businessId in the WHERE clause so an owner can never
+ * touch a device belonging to a different business, even if they somehow
+ * knew its id.
+ */
+businessRouter.patch('/devices/:id', requireBusinessOwner, async (req, res) => {
+  const { isActive } = req.body;
+  if (typeof isActive !== 'boolean') {
+    return res.status(400).json({ error: 'isActive (boolean) is required' });
+  }
+
+  const { rows } = await query(
+    `UPDATE business_devices
+     SET is_active = $1
+     WHERE id = $2 AND business_id = $3
+     RETURNING id, device_label, role, is_active`,
+    [isActive, req.params.id, req.auth.businessId]
+  );
+
+  if (!rows[0]) {
+    return res.status(404).json({ error: 'Device not found for this business' });
+  }
+  return res.json({ device: rows[0] });
 });
 
 /**

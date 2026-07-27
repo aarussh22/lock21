@@ -36,3 +36,10 @@ export function requireBusinessDevice(req, res, next) {
 export function requireCustomer(req, res, next) {
   verifyRequest(req, res, next, 'customer');
 }
+
+// Applied to routes only the business OWNER (not counter staff) should
+// reach - managing devices, viewing reports, reconnecting Square, etc.
+// req.auth = { type, businessId }
+export function requireBusinessOwner(req, res, next) {
+  verifyRequest(req, res, next, 'owner');
+}
