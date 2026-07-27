@@ -18,7 +18,7 @@ const OAUTH_SCOPES = [
   'MERCHANT_PROFILE_READ',
   'ORDERS_READ',
   'PAYMENTS_READ',
-].join('+');
+].join(' ');
 
 // A client with no accessToken - only used for the OAuth token endpoints,
 // which authenticate with client_id/client_secret in the request body

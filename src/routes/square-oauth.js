@@ -23,9 +23,14 @@ const pendingStates = new Map(); // state -> { businessId, createdAt }
  * remember it server-side, and redirect to Square's own login/consent page -
  * the business enters their Square credentials there, never in our app.
  */
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 squareOAuthRouter.get('/pos/connect', async (req, res) => {
   const { businessId } = req.query;
   if (!businessId) return res.status(400).json({ error: 'businessId is required' });
+  if (!UUID_RE.test(businessId)) {
+    return res.status(400).json({ error: 'businessId is not a valid UUID' });
+  }
 
   const { rows } = await query('SELECT id FROM businesses WHERE id = $1', [businessId]);
   if (!rows[0]) return res.status(404).json({ error: 'Business not found' });
