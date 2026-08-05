@@ -2,6 +2,7 @@ import { Router } from 'express';
 import crypto from 'node:crypto';
 import { query } from '../db/pool.js';
 import { encrypt } from '../utils/crypto.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 import {
   buildAuthorizationUrl,
   exchangeCodeForToken,
@@ -9,6 +10,8 @@ import {
 } from '../services/square.js';
 
 export const squareOAuthRouter = Router();
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // In-memory state store for the MVP. A single-process dev server is fine
 // with this; move to Redis (or a DB table with a short TTL) once you run
@@ -22,10 +25,9 @@ const pendingStates = new Map(); // state -> { businessId, createdAt }
  * when the owner taps "Connect Square". We generate a one-time state value,
  * remember it server-side, and redirect to Square's own login/consent page -
  * the business enters their Square credentials there, never in our app.
+ * Validates businessId looks like a UUID before it ever reaches Postgres.
  */
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-squareOAuthRouter.get('/pos/connect', async (req, res) => {
+squareOAuthRouter.get('/pos/connect', asyncHandler(async (req, res) => {
   const { businessId } = req.query;
   if (!businessId) return res.status(400).json({ error: 'businessId is required' });
   if (!UUID_RE.test(businessId)) {
@@ -40,7 +42,7 @@ squareOAuthRouter.get('/pos/connect', async (req, res) => {
 
   const url = buildAuthorizationUrl({ businessId, state });
   return res.redirect(url);
-});
+}));
 
 /**
  * GET /api/business/pos/callback
@@ -48,7 +50,7 @@ squareOAuthRouter.get('/pos/connect', async (req, res) => {
  * On success: exchange the code for tokens, fetch the location id, encrypt
  * and store everything, flip the business to 'active'.
  */
-squareOAuthRouter.get('/pos/callback', async (req, res) => {
+squareOAuthRouter.get('/pos/callback', asyncHandler(async (req, res) => {
   const { code, state: rawState, error: squareError } = req.query;
 
   if (squareError) {
@@ -89,4 +91,4 @@ squareOAuthRouter.get('/pos/callback', async (req, res) => {
     console.error('Square OAuth callback failed:', err);
     return res.status(500).send('Something went wrong connecting your Square account. Please try again.');
   }
-});
+}));

@@ -2,6 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { query } from '../db/pool.js';
 import { signToken, requireBusinessDevice, requireBusinessOwner } from '../middleware/auth.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const businessRouter = Router();
 
@@ -11,7 +12,7 @@ export const businessRouter = Router();
  * see /devices below for that. Creates the business row in 'pending_pos_connection'
  * status; they can't accept claims until Step 3 (Square OAuth) is completed.
  */
-businessRouter.post('/register', async (req, res) => {
+businessRouter.post('/register', asyncHandler(async (req, res) => {
   const { name, ownerEmail, password, address, city, province, postalCode } = req.body;
 
   if (!name || !ownerEmail || !password) {
@@ -35,10 +36,9 @@ businessRouter.post('/register', async (req, res) => {
     if (err.code === '23505') { // unique_violation on owner_email
       return res.status(409).json({ error: 'A business is already registered with that email' });
     }
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to register business' });
+    throw err; // handled by the centralized error handler in server.js via asyncHandler
   }
-});
+}));
 
 /**
  * POST /api/business/login
@@ -46,7 +46,7 @@ businessRouter.post('/register', async (req, res) => {
  * for counter staff. This is what a future owner dashboard would call.
  * Returns an 'owner'-typed JWT, required by requireBusinessOwner below.
  */
-businessRouter.post('/login', async (req, res) => {
+businessRouter.post('/login', asyncHandler(async (req, res) => {
   const { ownerEmail, password } = req.body;
   if (!ownerEmail || !password) {
     return res.status(400).json({ error: 'ownerEmail and password are required' });
@@ -71,7 +71,7 @@ businessRouter.post('/login', async (req, res) => {
 
   const token = signToken({ type: 'owner', businessId: business.id });
   return res.json({ token });
-});
+}));
 
 /**
  * POST /api/business/devices
@@ -81,7 +81,7 @@ businessRouter.post('/login', async (req, res) => {
  * loyalty.js's claim endpoint. This closes the gap where anyone who knew
  * a businessId could previously create a staff login for that business.
  */
-businessRouter.post('/devices', requireBusinessOwner, async (req, res) => {
+businessRouter.post('/devices', requireBusinessOwner, asyncHandler(async (req, res) => {
   const { deviceLabel, pin, role } = req.body;
   const businessId = req.auth.businessId;
 
@@ -100,14 +100,14 @@ businessRouter.post('/devices', requireBusinessOwner, async (req, res) => {
     [businessId, deviceLabel, pinHash, role ?? null]
   );
   return res.status(201).json({ device: rows[0] });
-});
+}));
 
 /**
  * GET /api/business/devices
  * Owner-only. Lists every staff device for their business, so a future
  * owner dashboard can show/manage them.
  */
-businessRouter.get('/devices', requireBusinessOwner, async (req, res) => {
+businessRouter.get('/devices', requireBusinessOwner, asyncHandler(async (req, res) => {
   const { rows } = await query(
     `SELECT id, device_label, role, is_active, created_at, last_used_at
      FROM business_devices
@@ -116,19 +116,28 @@ businessRouter.get('/devices', requireBusinessOwner, async (req, res) => {
     [req.auth.businessId]
   );
   return res.json({ devices: rows });
-});
+}));
 
 /**
  * PATCH /api/business/devices/:id
  * Owner-only. Deactivates (or reactivates) a device - e.g. a lost tablet.
  * Scoped to req.auth.businessId in the WHERE clause so an owner can never
  * touch a device belonging to a different business, even if they somehow
- * knew its id.
+ * knew its id. Validates :id looks like a UUID before it ever reaches
+ * Postgres - a malformed id now returns a clean 400 instead of relying on
+ * asyncHandler to catch a DB-level crash (belt and suspenders: this check
+ * is fast/cheap and gives a much clearer error message than a raw
+ * Postgres "invalid input syntax" would).
  */
-businessRouter.patch('/devices/:id', requireBusinessOwner, async (req, res) => {
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+businessRouter.patch('/devices/:id', requireBusinessOwner, asyncHandler(async (req, res) => {
   const { isActive } = req.body;
   if (typeof isActive !== 'boolean') {
     return res.status(400).json({ error: 'isActive (boolean) is required' });
+  }
+  if (!UUID_RE.test(req.params.id)) {
+    return res.status(400).json({ error: 'device id in the URL is not a valid UUID' });
   }
 
   const { rows } = await query(
@@ -143,18 +152,24 @@ businessRouter.patch('/devices/:id', requireBusinessOwner, async (req, res) => {
     return res.status(404).json({ error: 'Device not found for this business' });
   }
   return res.json({ device: rows[0] });
-});
+}));
 
 /**
  * POST /api/business/devices/login
  * The screen staff actually use at the counter each shift: pick the device,
  * enter the PIN. Returns a short-lived JWT scoped to that business/device -
  * this is what authorizes /api/customer/scan and /api/loyalty/claim below.
+ * Validates deviceId looks like a UUID up front - this is exactly the field
+ * that crashed the server when a placeholder string was sent instead of a
+ * real id; this check turns that into a clean 400 instead.
  */
-businessRouter.post('/devices/login', async (req, res) => {
+businessRouter.post('/devices/login', asyncHandler(async (req, res) => {
   const { deviceId, pin } = req.body;
   if (!deviceId || !pin) {
     return res.status(400).json({ error: 'deviceId and pin are required' });
+  }
+  if (!UUID_RE.test(deviceId)) {
+    return res.status(400).json({ error: 'deviceId is not a valid UUID - did you paste a real id, not a placeholder?' });
   }
 
   const { rows } = await query(
@@ -187,14 +202,14 @@ businessRouter.post('/devices/login', async (req, res) => {
   });
 
   return res.json({ token });
-});
+}));
 
 /**
  * GET /api/business/me
  * Sanity-check endpoint for the business app to confirm the token is valid
  * and fetch the connected business's basic info + POS connection status.
  */
-businessRouter.get('/me', requireBusinessDevice, async (req, res) => {
+businessRouter.get('/me', requireBusinessDevice, asyncHandler(async (req, res) => {
   const { rows } = await query(
     `SELECT id, name, status, pos_provider, pos_location_id IS NOT NULL AS pos_connected
      FROM businesses WHERE id = $1`,
@@ -202,4 +217,4 @@ businessRouter.get('/me', requireBusinessDevice, async (req, res) => {
   );
   if (!rows[0]) return res.status(404).json({ error: 'Business not found' });
   return res.json({ business: rows[0] });
-});
+}));

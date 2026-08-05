@@ -13,6 +13,15 @@ export function generateQrToken() {
 }
 
 /**
+ * Generates a ROTATING QR token (distinct prefix from the static one above)
+ * for the qr_tokens table - short-lived (5 min), single-use, refreshed by
+ * the customer app on a timer. See routes/qr.js.
+ */
+export function generateRotatingQrToken() {
+  return `QR2.${crypto.randomBytes(20).toString('base64url')}`;
+}
+
+/**
  * Deterministic idempotency key for a claim attempt, built from the
  * transaction being claimed against. If the business app retries a claim
  * request after a network timeout, this ensures the ledger insert is

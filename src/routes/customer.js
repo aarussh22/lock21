@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { query } from '../db/pool.js';
 import { signToken, requireCustomer } from '../middleware/auth.js';
 import { generateQrToken } from '../utils/tokens.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
 
 export const customerRouter = Router();
 
@@ -13,7 +14,7 @@ export const customerRouter = Router();
  * being required in the body so the rest of the flow is testable today
  * without a live SMS provider wired up yet.
  */
-customerRouter.post('/register', async (req, res) => {
+customerRouter.post('/register', asyncHandler(async (req, res) => {
   const { phone, firstName, lastName, email, smsVerified } = req.body;
 
   if (!phone) return res.status(400).json({ error: 'phone is required' });
@@ -37,17 +38,16 @@ customerRouter.post('/register', async (req, res) => {
     if (err.code === '23505') {
       return res.status(409).json({ error: 'A customer already exists with that phone or email' });
     }
-    console.error(err);
-    return res.status(500).json({ error: 'Failed to register customer' });
+    throw err; // handled by the centralized error handler in server.js via asyncHandler
   }
-});
+}));
 
 /**
  * POST /api/customer/login
  * Same SMS-verification stub pattern as register - swap `smsVerified` for
  * a real Twilio Verify check before launch.
  */
-customerRouter.post('/login', async (req, res) => {
+customerRouter.post('/login', asyncHandler(async (req, res) => {
   const { phone, smsVerified } = req.body;
   if (!phone || !smsVerified) {
     return res.status(400).json({ error: 'phone and a verified SMS code are required' });
@@ -58,10 +58,10 @@ customerRouter.post('/login', async (req, res) => {
 
   const token = signToken({ type: 'customer', customerId: rows[0].id });
   return res.json({ token });
-});
+}));
 
 /** GET /api/customer/me - profile + QR payload for the "my code" screen */
-customerRouter.get('/me', requireCustomer, async (req, res) => {
+customerRouter.get('/me', requireCustomer, asyncHandler(async (req, res) => {
   const { rows } = await query(
     `SELECT id, phone, email, first_name, last_name, qr_token, created_at
      FROM customers WHERE id = $1`,
@@ -69,12 +69,25 @@ customerRouter.get('/me', requireCustomer, async (req, res) => {
   );
   if (!rows[0]) return res.status(404).json({ error: 'Customer not found' });
   return res.json({ customer: rows[0] });
-});
+}));
 
-/** GET /api/customer/balances - per-business point balances for the home screen */
-customerRouter.get('/balances', requireCustomer, async (req, res) => {
+/**
+ * GET /api/customer/balances - per-business point balances for the home
+ * screen. Includes reward_threshold and a computed rewards_available count
+ * (floor(points_balance / reward_threshold)) so the frontend can show a
+ * "reward ready!" indicator without doing that math itself. How exactly the
+ * raw balance is displayed (e.g. showing "21+" instead of the real number
+ * once a reward is available) is a frontend decision - this endpoint always
+ * returns the true numbers.
+ */
+customerRouter.get('/balances', requireCustomer, asyncHandler(async (req, res) => {
   const { rows } = await query(
-    `SELECT cb.business_id, b.name AS business_name, cb.points_balance
+    `SELECT
+       cb.business_id,
+       b.name AS business_name,
+       cb.points_balance,
+       b.reward_threshold,
+       FLOOR(cb.points_balance / b.reward_threshold) AS rewards_available
      FROM customer_balances cb
      JOIN businesses b ON b.id = cb.business_id
      WHERE cb.customer_id = $1
@@ -82,10 +95,10 @@ customerRouter.get('/balances', requireCustomer, async (req, res) => {
     [req.auth.customerId]
   );
   return res.json({ balances: rows });
-});
+}));
 
 /** GET /api/customer/history - ledger + redemption history for the "activity" screen */
-customerRouter.get('/history', requireCustomer, async (req, res) => {
+customerRouter.get('/history', requireCustomer, asyncHandler(async (req, res) => {
   const { rows } = await query(
     `SELECT 'earn' AS type, l.points_earned AS points, l.earned_at AS occurred_at, b.name AS business_name
      FROM loyalty_ledger l JOIN businesses b ON b.id = l.business_id
@@ -99,4 +112,4 @@ customerRouter.get('/history', requireCustomer, async (req, res) => {
     [req.auth.customerId]
   );
   return res.json({ history: rows });
-});
+}));
